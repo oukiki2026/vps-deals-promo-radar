@@ -25,7 +25,7 @@ def main():
             for n in nodes:
                 if n.get('@type')=='Offer':assert n['priceCurrency']=='USD' and float(n['price'])>0
         for link in re.findall(r'href="(/[^"]*)"',html):
-            link=link.split('#')[0]
+            link=link.split('#')[0].split('?')[0]
             if not link:continue
             target=site/link.lstrip('/')
             assert target.exists() or (target/'index.html').exists(),link

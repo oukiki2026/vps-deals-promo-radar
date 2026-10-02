@@ -8,7 +8,7 @@ from pathlib import Path
 from html import escape
 from string import Template
 from xml.sax.saxutils import escape as xml_escape
-import json,shutil,re
+import json,shutil,re,hashlib
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -30,6 +30,7 @@ def build(config_path=None,output=None):
     if out.exists():shutil.rmtree(out)
     out.mkdir(parents=True);(out/'assets').mkdir();shutil.copy(ROOT/'assets/style.css',out/'assets/style.css');shutil.copy(ROOT/'assets/logo.svg',out/'assets/logo.svg')
     shutil.copy(ROOT/'assets/og.png',out/'assets/og.png')
+    style_version=hashlib.sha256((ROOT/'assets/style.css').read_bytes()).hexdigest()[:12]
     (out/'data').mkdir();public_data=dict(data,offers=offers,providers=[p for p in data['providers'] if p['provider_id'] in {x['id'] for x in cfg['providers']}]);(out/'data/offers.json').write_text(json.dumps(public_data,indent=2),encoding='utf-8')
     providers={p['id']:p for p in cfg['providers']};statuses={p['provider_id']:p for p in data['providers']}
     month=datetime.fromisoformat(data['fetched_at']).strftime('%B %Y');paths=[]
@@ -45,7 +46,7 @@ def build(config_path=None,output=None):
         support_links='<a href="/privacy/">Privacy policy</a>'
         if cfg.get('operator_name'):support_links+='<a href="/about/">About</a>'
         if cfg.get('contact_email'):support_links+='<a href="/contact/">Contact</a>'
-        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links)
+        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links,style_version=style_version)
         target=out/path.lstrip('/')/'index.html' if path!='/' else out/'index.html';target.parent.mkdir(parents=True,exist_ok=True);target.write_text(html,encoding='utf-8');paths.append((path,lastmod or data['fetched_at']))
     nav=''.join(f'<a class="provider-pill" href="/providers/{p["id"]}/">{escape(p["name"])}</a>' for p in cfg['providers'])
     page('/',f'{cfg["brand"]} — VPS introductory offers · {month}',cfg['tagline'],render('index.html',month=month,count=len(offers),cards=''.join(card(o) for o in offers) or '<p>No currently verified offers. Check the official sources below.</p>',providers=nav),[itemlist(offers)])
@@ -78,7 +79,7 @@ def build(config_path=None,output=None):
     (out/'sitemap.xml').write_text(sitemap,encoding='utf-8');(out/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+url('/sitemap.xml')+'\n',encoding='utf-8')
     (out/'_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Content-Security-Policy: default-src \'self\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; frame-ancestors \'none\'\n',encoding='utf-8')
     # Static 404 prevents Pages SPA fallback from returning the homepage for removed offers.
-    (out/'404.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/style.css"><title>Page unavailable</title><main><section class="page-hero"><h1>Page unavailable</h1><p>This offer may have expired or failed verification, or the address may be incorrect.</p><a class="button" href="/">View current offers</a></section></main></html>',encoding='utf-8')
+    (out/'404.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/style.css"><title>Page unavailable</title><main><section class="page-hero"><h1>Page unavailable</h1><p>This offer may have expired or failed verification, or the address may be incorrect.</p><a class="button" href="/">View current offers</a></section></main></html>'.replace('href="/assets/style.css"',f'href="/assets/style.css?v={style_version}"'),encoding='utf-8')
     if not config_path and not output:
         (ROOT/'data/build-report.json').write_text(json.dumps(dict(base_url=base,deal_pages=len(offers),total_pages=len(paths),fetched_at=data['fetched_at']),indent=2)+'\n',encoding='utf-8')
         readme=ROOT/'README.md';body=readme.read_text(encoding='utf-8')
