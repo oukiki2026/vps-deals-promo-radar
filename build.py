@@ -10,6 +10,7 @@ from string import Template
 from xml.sax.saxutils import escape as xml_escape
 import json,shutil,re,hashlib
 from ai_content import publish_ai_pages
+from guides import publish_guides
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -47,17 +48,20 @@ def build(config_path=None,output=None):
         support_links='<a href="/privacy/">Privacy policy</a>'
         if cfg.get('operator_name'):support_links+='<a href="/about/">About</a>'
         if cfg.get('contact_email'):support_links+='<a href="/contact/">Contact</a>'
-        ai_nav='<a href="/ai-tools/">AI Tools</a>' if cfg.get('ai_tools_enabled')=='true' else ''
+        ai_nav='<a href="/guides/">Guides</a>'
+        if cfg.get('ai_tools_enabled')=='true':ai_nav+='<a href="/ai-tools/">AI Tools</a><a href="/ai-news/">AI Updates</a>'
         html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links,style_version=style_version,ai_nav=ai_nav)
         target=out/path.lstrip('/')/'index.html' if path!='/' else out/'index.html';target.parent.mkdir(parents=True,exist_ok=True);target.write_text(html,encoding='utf-8');paths.append((path,lastmod or data['fetched_at']))
     nav=''.join(f'<a class="provider-pill" href="/providers/{p["id"]}/">{escape(p["name"])}</a>' for p in cfg['providers'])
     ai_intro='<section class="section"><div class="section-heading"><h2>AI tools for your next project</h2><a href="/ai-tools/">Explore AI Tools →</a></div><p>Compare coding assistants, AI website builders and model deployment options. Check free entry points, usage limits and the costs beyond a subscription.</p></section>' if cfg.get('ai_tools_enabled')=='true' else ''
     page('/',f'{cfg["brand"]} — VPS offers & AI tools · {month}',cfg['tagline'],render('index.html',month=month,count=len(offers),cards=''.join(card(o) for o in offers) or '<p>No currently verified offers. Check the official sources below.</p>',providers=nav)+ai_intro,[itemlist(offers)])
     if cfg.get('ai_tools_enabled')=='true':publish_ai_pages(page,cfg)
+    publish_guides(page,cfg)
     for p in cfg['providers']:
         items=[o for o in offers if o['provider_id']==p['id']];st=statuses.get(p['id'],{});check=st.get('checked_at','Not checked yet')
         content=render('provider.html',name=escape(p['name']),source=escape(p['source']),status=escape(st.get('status','not-checked')),checked=escape(check),cards=''.join(card(o) for o in items) or '<div class="notice">No verified current price available. This is not a claim that the provider has no offers. Check the official source.</div>')
         schemas=[]
+        content+='<section class="prose"><h2>Related guides</h2><p><a href="/guides/how-to-choose-first-vps/">Choose your first VPS</a> · <a href="/guides/how-to-read-vps-promo-terms/">Read promotion terms</a> · <a href="/guides/vps-vs-managed-static-hosting/">VPS or managed static hosting?</a></p></section>'
         # Separate Services prevent unrelated server plans being merged into one Product.
         for o in items:
             schemas.append({'@context':'https://schema.org','@type':'Service','name':o['title'],'provider':{'@type':'Organization','name':p['name']},'offers':offer_schema(o)})
