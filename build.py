@@ -85,9 +85,11 @@ def build(config_path=None,output=None):
         main_line='Main site: deployment pending; no verified public URL yet.' if base=='https://example.invalid' else f'Main site: [{base}]({base})'
         body=re.sub(r'Main site:.*',main_line,body)
         readme.write_text(body,encoding='utf-8')
-        workflow=ROOT/'.github/workflows/update.yml';body=workflow.read_text(encoding='utf-8')
-        body=re.sub(r"- cron: '[^']+'", "- cron: '"+cfg['cron']+"'",body)
-        workflow.write_text(body,encoding='utf-8')
+        workflow=ROOT/'.github/workflows/update.yml';original=workflow.read_text(encoding='utf-8')
+        body=re.sub(r"- cron: '[^']+'", "- cron: '"+cfg['cron']+"'",original)
+        # Leave identical workflow bytes intact: CRLF normalization alone must not
+        # make an Actions data update attempt a workflow-permission change.
+        if body!=original:workflow.write_text(body,encoding='utf-8')
     print(f'Built {len(paths)} pages, including {len(offers)} deal pages; canonical base {base}')
     return out
 

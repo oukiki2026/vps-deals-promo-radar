@@ -38,4 +38,20 @@ class PipelineTests(unittest.TestCase):
             self.assertFalse((output/'providers'/provider['id']).exists())
             self.assertNotIn('/providers/'+provider['id']+'/',(output/'index.html').read_text(encoding='utf-8'))
 
+    def test_unchanged_cron_keeps_workflow_bytes(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            (root/'.github/workflows').mkdir(parents=True)
+            (root/'data').mkdir()
+            (root/'README.md').write_text('Main site: test\n',encoding='utf-8')
+            workflow=root/'.github/workflows/update.yml'
+            original=("on:\r\n  schedule:\r\n    - cron: '"+load_config()['cron']+"'\r\n").encode('utf-8')
+            workflow.write_bytes(original)
+            # Use real inputs/assets, but direct mutable reports/workflow into temp.
+            for folder in ['assets','templates','.ilang']:
+                __import__('shutil').copytree(ROOT/folder,root/folder)
+            __import__('shutil').copy(ROOT/'data/offers.json',root/'data/offers.json')
+            with patch('build.ROOT',root):build()
+            self.assertEqual(workflow.read_bytes(),original)
+
 if __name__=='__main__':unittest.main()
