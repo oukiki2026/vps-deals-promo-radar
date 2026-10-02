@@ -2,7 +2,7 @@
 
 Official-source VPS offers. Clear terms. No invented coupons.
 
-Main site: deployment pending; no verified public URL yet.
+Main site: [https://vps-deals-promo-radar-4bq.pages.dev](https://vps-deals-promo-radar-4bq.pages.dev)
 
 ![Brand mark](assets/logo.svg)
 

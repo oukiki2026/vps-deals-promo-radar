@@ -1,8 +1,8 @@
 ::ILANG
 [TYPE:config][PROJECT:vps-deals][LANG:zh]
-::STATE{@SITE, brand:vps-deals, niche:VPS hosting, domain:pending, locale:en-US}
+::STATE{@SITE, brand:vps-deals, niche:VPS hosting, domain:vps-deals-promo-radar-4bq.pages.dev, locale:en-US}
 ::MODULE{SETTINGS|title:渲染与更新规则}
-base_url = https://example.invalid
+base_url = https://vps-deals-promo-radar-4bq.pages.dev
 repository = https://github.com/oukiki2026/vps-deals-promo-radar
 tagline = Official-source VPS offers. Clear terms. No invented coupons.
 cron = 17 */6 * * *
