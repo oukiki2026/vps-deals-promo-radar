@@ -1,6 +1,6 @@
 # kikomono-deals
 
-Official-source VPS offers. Clear terms. No invented coupons.
+VPS offers and AI tools for developers. Official sources. Clear terms.
 
 Main site: [https://kikomono.com](https://kikomono.com)
 
@@ -52,3 +52,7 @@ X and Facebook are deferred. Reuse the brand mark, tagline and main-site URL if 
 After registration, activate it in Pages and DNS, set `base_url` and `@SITE.domain` in `.ilang/site.ilang`, rebuild and verify every canonical and sitemap URL. Domain age, repository commits and structured data do not guarantee rankings or rich results.
 
 站点规则用 I-Lang 协议描述，见 `.ilang/site.ilang`；协议说明： https://ilang.ai 。
+
+## AI Tools
+
+The `/ai-tools/` collection is manually reviewed editorial content with official product sources and no invented coupons or prices. `.ilang/site.ilang` controls `ai_tools_enabled` and `ai_content_updated`. `ai_content.py` contains the guides. These dates are independent of automated VPS fetch timestamps. Disable the flag to remove the collection and its navigation/sitemap entries. No affiliate commission is configured for the AI listings.
