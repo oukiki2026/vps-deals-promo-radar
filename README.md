@@ -2,7 +2,7 @@
 
 Official-source VPS offers. Clear terms. No invented coupons.
 
-Main site: deployment pending. The actual Cloudflare Pages address will be written here after creation.
+Main site: [https://example.invalid](https://example.invalid)
 
 ![Brand mark](assets/logo.svg)
 
