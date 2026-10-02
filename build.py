@@ -70,7 +70,8 @@ def build(config_path=None,output=None):
     if not config_path and not output:
         (ROOT/'data/build-report.json').write_text(json.dumps(dict(base_url=base,deal_pages=len(offers),total_pages=len(paths),fetched_at=data['fetched_at']),indent=2)+'\n',encoding='utf-8')
         readme=ROOT/'README.md';body=readme.read_text(encoding='utf-8')
-        body=re.sub(r'Main site:.*',f'Main site: [{base}]({base})',body)
+        main_line='Main site: deployment pending; no verified public URL yet.' if base=='https://example.invalid' else f'Main site: [{base}]({base})'
+        body=re.sub(r'Main site:.*',main_line,body)
         readme.write_text(body,encoding='utf-8')
         workflow=ROOT/'.github/workflows/update.yml';body=workflow.read_text(encoding='utf-8')
         body=re.sub(r"- cron: '[^']+'", "- cron: '"+cfg['cron']+"'",body)

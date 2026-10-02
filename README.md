@@ -2,7 +2,7 @@
 
 Official-source VPS offers. Clear terms. No invented coupons.
 
-Main site: [https://example.invalid](https://example.invalid)
+Main site: deployment pending; no verified public URL yet.
 
 ![Brand mark](assets/logo.svg)
 
