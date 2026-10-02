@@ -1,0 +1,20 @@
+::ILANG
+[TYPE:config][PROJECT:vps-deals][LANG:zh]
+::STATE{@SITE, brand:vps-deals, niche:VPS hosting, domain:pending, locale:en-US}
+::MODULE{SETTINGS|title:渲染与更新规则}
+base_url = https://example.invalid
+repository = https://github.com/oukiki2026/vps-deals-promo-radar
+tagline = Official-source VPS offers. Clear terms. No invented coupons.
+cron = 17 */6 * * *
+max_age_hours = 48
+fields = title price currency offer_url valid_until source_url fetched_at
+pages = index provider deal compare methodology
+::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
+IONOS | https://www.ionos.com | https://www.ionos.com/servers/vps |
+DigitalOcean | https://www.digitalocean.com | https://www.digitalocean.com/pricing/droplets |
+Hetzner | https://www.hetzner.com | https://www.hetzner.com/cloud/ |
+::RULE{抓不到当期价格或真实型号⇒不生成优惠记录;保留厂商页显示暂无可核验价格}
+::RULE{robots不允许或抓取失败⇒不绕过;本轮移除该来源优惠;公开抓取状态}
+::RULE{valid_until已过或记录超过max_age_hours⇒下架;不推测有效期}
+::RULE{更新频率来自cron;运行时纯Python标准库;不使用推理API}
+::BOUNDARY{never:编优惠 编价格 编佣金 编销量 把原价续费价当当期售价|scope:permanent}
