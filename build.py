@@ -42,7 +42,10 @@ def build(config_path=None,output=None):
         bread={'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':cfg['brand'],'item':url('/')}]}
         if path!='/':bread['itemListElement'].append({'@type':'ListItem','position':2,'name':title,'item':url(path)})
         schema=json.dumps((schemas or [])+[bread],ensure_ascii=False).replace('<','\\u003c')
-        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']))
+        support_links='<a href="/privacy/">Privacy policy</a>'
+        if cfg.get('operator_name'):support_links+='<a href="/about/">About</a>'
+        if cfg.get('contact_email'):support_links+='<a href="/contact/">Contact</a>'
+        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links)
         target=out/path.lstrip('/')/'index.html' if path!='/' else out/'index.html';target.parent.mkdir(parents=True,exist_ok=True);target.write_text(html,encoding='utf-8');paths.append((path,lastmod or data['fetched_at']))
     nav=''.join(f'<a class="provider-pill" href="/providers/{p["id"]}/">{escape(p["name"])}</a>' for p in cfg['providers'])
     page('/',f'{cfg["brand"]} — VPS introductory offers · {month}',cfg['tagline'],render('index.html',month=month,count=len(offers),cards=''.join(card(o) for o in offers) or '<p>No currently verified offers. Check the official sources below.</p>',providers=nav),[itemlist(offers)])
@@ -62,11 +65,20 @@ def build(config_path=None,output=None):
     rows=''.join(f'<tr><td><a href="/deals/{o["id"]}/">{escape(o["title"])}</a></td><td>USD {escape(o["price"])}/{escape(o["period"])}</td><td>{escape(o.get("specs",""))}</td><td>{escape(o["terms"])}</td></tr>' for o in offers)
     page('/compare/',f'Compare verified VPS introductory offers · {month}','Compare only verified prices, hardware and introductory billing conditions.',render('compare.html',rows=rows),[itemlist(offers)])
     page('/methodology/',f'How {cfg["brand"]} verifies offers','Official sources, conservative extraction, billing conditions and affiliate disclosure.',render('methodology.html',freshness=cfg['max_age_hours']))
+    policy_date=cfg.get('privacy_updated','2026-10-02')
+    privacy_contact='<a href="/contact/">Contact the site operator</a>' if cfg.get('contact_email') else f'<a href="{escape(cfg["repository"])}/issues">Public repository issue tracker</a> (do not post private information)'
+    page('/privacy/',f'Privacy policy | {cfg["brand"]}','How this static site handles hosting requests, external links and future third-party advertising.',render('privacy.html',brand=escape(cfg['brand']),domain=escape(cfg['domain']),policy_date=escape(policy_date),privacy_contact=privacy_contact),lastmod=policy_date)
+    if cfg.get('operator_name'):
+        page('/about/',f'About {cfg["brand"]}','Who maintains this official-source VPS offer monitor and how it works.',render('about.html',brand=escape(cfg['brand']),operator=escape(cfg['operator_name']),repo=escape(cfg['repository'])))
+    if cfg.get('contact_email'):
+        email=cfg['contact_email']
+        if not re.fullmatch(r"[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",email):raise ValueError('contact_email must be a plain email address')
+        page('/contact/',f'Contact | {cfg["brand"]}','Report an incorrect offer, ask about privacy or contact the site operator.',render('contact.html',email=escape(email),repo=escape(cfg['repository'])))
     sitemap='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{xml_escape(url(path))}</loc><lastmod>{xml_escape(stamp)}</lastmod></url>' for path,stamp in paths)+'</urlset>'
     (out/'sitemap.xml').write_text(sitemap,encoding='utf-8');(out/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+url('/sitemap.xml')+'\n',encoding='utf-8')
     (out/'_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Content-Security-Policy: default-src \'self\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; frame-ancestors \'none\'\n',encoding='utf-8')
     # Static 404 prevents Pages SPA fallback from returning the homepage for removed offers.
-    (out/'404.html').write_text('<!doctype html><html lang="en"><title>Page unavailable</title><h1>Page unavailable</h1><p>This offer may have expired or failed verification.</p><a href="/">View current offers</a></html>',encoding='utf-8')
+    (out/'404.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/style.css"><title>Page unavailable</title><main><section class="page-hero"><h1>Page unavailable</h1><p>This offer may have expired or failed verification, or the address may be incorrect.</p><a class="button" href="/">View current offers</a></section></main></html>',encoding='utf-8')
     if not config_path and not output:
         (ROOT/'data/build-report.json').write_text(json.dumps(dict(base_url=base,deal_pages=len(offers),total_pages=len(paths),fetched_at=data['fetched_at']),indent=2)+'\n',encoding='utf-8')
         readme=ROOT/'README.md';body=readme.read_text(encoding='utf-8')

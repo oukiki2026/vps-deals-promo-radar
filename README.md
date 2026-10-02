@@ -1,8 +1,11 @@
-# vps-deals
+# kikomono-deals
 
 Official-source VPS offers. Clear terms. No invented coupons.
 
 Main site: [https://kikomono.com](https://kikomono.com)
+
+Maintained by OuKiki. Public contact: [oukiki2026@gmail.com](mailto:oukiki2026@gmail.com).
+Site information: [About](https://kikomono.com/about/) · [Contact](https://kikomono.com/contact/) · [Privacy policy](https://kikomono.com/privacy/).
 
 ![Brand mark](assets/logo.svg)
 
@@ -27,6 +30,8 @@ Cloudflare Pages build command: `python build.py`; output: `site/`. Connect the 
 ## Configuration that changes the site
 
 `.ilang/site.ilang` is parsed by both scraper and builder. Edit the provider rows, brand or base_url, then run the pipeline. The regression test removes a provider and checks that its page and navigation disappear. The first version intentionally supports only en-US; add real regional source adapters before extending languages.
+
+The same configuration holds `operator_name`, `contact_email` and `privacy_updated`. About and contact pages are published only when the corresponding real details have been supplied. No advertising or analytics code is installed. Before adding an approved network, update the privacy policy, required consent handling and Content Security Policy for that exact integration.
 
 The scheduled workflow requests a check every six hours, at minute 17 UTC. Execution may be delayed or fail. Verification timestamps are genuine retrieval times, not claims that the price is still available. Scheduled public workflows can be disabled after inactivity by GitHub. See [GitHub schedule rules](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/disable-and-enable-workflows) and [Actions billing](https://docs.github.com/en/actions/concepts/billing-and-usage). Standard hosted runners are free for public repositories, subject to GitHub terms. Cloudflare Pages has a [Free-plan build limit](https://developers.cloudflare.com/pages/platform/limits/).
 
