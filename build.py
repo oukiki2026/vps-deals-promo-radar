@@ -22,6 +22,7 @@ def active_offers(cfg,data,now=None):
 
 def build(config_path=None,output=None):
     cfg=load_config(config_path) if config_path else load_config();base=cfg['base_url'].rstrip('/')
+    if not re.fullmatch(r'https://[A-Za-z0-9.-]+',base):raise ValueError('base_url must be an HTTPS origin')
     data=json.loads((ROOT/'data/offers.json').read_text(encoding='utf-8'))
     offers=active_offers(cfg,data);out=Path(output) if output else ROOT/'site'
     # Delete only our generated output inside this repo or an explicit test temp directory.
