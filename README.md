@@ -2,7 +2,7 @@
 
 Official-source VPS offers. Clear terms. No invented coupons.
 
-Main site: [https://vps-deals-promo-radar-4bq.pages.dev](https://vps-deals-promo-radar-4bq.pages.dev)
+Main site: [https://kikomono.com](https://kikomono.com)
 
 ![Brand mark](assets/logo.svg)
 
