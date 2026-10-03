@@ -7,6 +7,7 @@ repository = https://github.com/oukiki2026/vps-deals-promo-radar
 tagline = VPS offers and AI tools for developers. Official sources. Clear terms.
 ai_tools_enabled = true
 ai_content_updated = 2026-10-02
+meeting_content_updated = 2026-10-03
 cron = 17 */6 * * *
 max_age_hours = 48
 fields = title price currency offer_url valid_until source_url fetched_at
