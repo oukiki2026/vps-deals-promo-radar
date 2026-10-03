@@ -1,6 +1,7 @@
 """Source-linked editorial guides; no prices, coupon codes or affiliate claims."""
 from html import escape
 from meeting_content import GUIDES as MEETING_GUIDES, publish_meeting_pages
+from muse_content import MUSE_CARD, publish_muse
 
 TOOLS = [
     dict(slug='cursor', name='Cursor', category='AI coding',
@@ -40,10 +41,11 @@ def publish_ai_pages(page, cfg):
     publish('/ai-tools/','AI tools for developers and website builders','Source-linked AI tool buying guides, free entry points and billing checks.',
         '<section class="page-hero"><p class="eyebrow">AI TOOLS</p><h1>Build more.<br><span>Understand what you pay for.</span></h1><p class="lede">Choose a coding assistant, a website builder or a model deployment service around the job you need to finish.</p></section>'
         '<div class="notice">No verified promotional coupon is listed in this collection. Free plans and standard subscriptions are not discounts. Links go directly to official sites; no affiliate commission is configured.</div>'
-        '<section class="section"><div class="grid">'+cards+'</div></section><section class="section"><h2>Choose by the work, not the label</h2><div class="table-wrap"><table><thead><tr><th>Tool</th><th>Use case</th><th>Before you pay</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'
+        '<section class="section"><div class="grid">'+cards+MUSE_CARD+'</div></section><section class="section"><h2>Choose by the work, not the label</h2><div class="table-wrap"><table><thead><tr><th>Tool</th><th>Use case</th><th>Before you pay</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'
         '<section class="section"><h2>Meeting notes, transcription and summaries</h2><p>Choose a tool around capture, correction, export and access. These independent workflow guides help you evaluate the complete handoff before subscribing.</p><div class="grid">'+meeting_cards+'</div></section>'
         '<section class="prose"><h2>Practical guides</h2><p><a href="/ai-tools/coding-assistant-checklist/">Choose an AI coding assistant without buying overlapping subscriptions</a></p><p><a href="/ai-tools/ai-app-budget/">Plan an AI app budget: tools, hosting and model usage</a></p><h2>How we review</h2><p>Product facts are based on the linked official sources. Buying advice is our editorial judgment, not a benchmark or a claim of hands-on testing. This collection is manually reviewed and is separate from the automated VPS price monitor. Source review date: '+escape(date)+'. Check the official page before purchase.</p></section>')
     publish_meeting_pages(page,cfg.get('meeting_content_updated','2026-10-03'))
+    publish_muse(page)
     for t in TOOLS:
         extra=f'<li><a href="{escape(t["extra"])}" rel="noopener">Official hosting requirements</a></li>' if t.get('extra') else ''
         body=f'<section class="page-hero"><p class="eyebrow">{escape(t["category"])}</p><h1>{escape(t["name"])}: what to check before buying</h1><p class="lede">{escape(t["summary"])}</p></section><article class="prose"><h2>What the official source confirms</h2><p>{escape(t["facts"])}</p><h2>Our buying advice</h2><p>{escape(t["advice"])}</p><h2>Costs and limitations</h2><p>{escape(t["limits"])}</p><h2>Is there a verified coupon?</h2><p>We have not verified a promotional coupon for this listing. Check the official source for current offers and eligibility. A free plan is not a discount on a paid subscription.</p><h2>Official sources</h2><ul><li><a href="{escape(t["source"])}" rel="noopener">Official product information and terms</a></li>{extra}</ul><p>Source review date: {escape(date)}. Editorial advice; no hands-on performance test is claimed. Direct official links, with no affiliate commission configured.</p><p><a href="/ai-tools/">← All AI tools</a> · <a href="/ai-tools/ai-app-budget/">Plan your project budget</a></p></article>'
