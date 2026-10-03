@@ -1,10 +1,10 @@
 ::ILANG
 [TYPE:config][PROJECT:vps-deals][LANG:zh]
-::STATE{@SITE, brand:kikomono-deals, niche:VPS hosting, domain:kikomono.com, locale:en-US}
+::STATE{@SITE, brand:kikomono-deals, niche:AI beginner guides and verified offers, domain:kikomono.com, locale:en-US}
 ::MODULE{SETTINGS|title:渲染与更新规则}
 base_url = https://kikomono.com
 repository = https://github.com/oukiki2026/vps-deals-promo-radar
-tagline = VPS offers and AI tools for developers. Official sources. Clear terms.
+tagline = Practical AI guides for beginners. Free entry points. Verified offers with clear conditions.
 ai_tools_enabled = true
 ai_content_updated = 2026-10-02
 meeting_content_updated = 2026-10-03
