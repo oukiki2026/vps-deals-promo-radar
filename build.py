@@ -12,6 +12,7 @@ import json,shutil,re,hashlib
 from ai_content import publish_ai_pages
 from guides import publish_guides
 from beginner_content import publish_beginner_pages
+from pdf_content import publish_pdf_guide
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -61,7 +62,9 @@ def build(config_path=None,output=None):
     page('/hosting/','Website hosting & VPS guides | '+cfg['brand'],'Choose hosting for your first website and inspect official-source VPS offers.',hosting,[itemlist(offers)])
     page('/offers/','Verified offers | '+cfg['brand'],'Current source-verified offers, purchase conditions and clear verification limits.','<section class="page-hero"><p class="eyebrow">VERIFIED OFFERS</p><h1>Check the conditions.<br><span>Then consider the saving.</span></h1><p class="lede">A free plan is not a discount. An advertiser application is not an approved offer.</p></section><section class="prose"><h2>AI offers</h2><p>No independently verified AI discount is listed here at present. Our <a href="/free-ai/">free entry points</a> are listed separately. The <a href="/ai-tools/meta-muse-guide/">Muse guide</a> explains an owner-reported referral reward and its verification limits; it is not listed as an independently verified coupon.</p><h2>Hosting offers</h2><p>Below are current official-source price records. Introductory prices are not coupon codes. Check the linked billing and purchase conditions before buying.</p></section><section class="section"><div class="grid">'+(''.join(card(o) for o in offers) or '<p>No current verified hosting price record is available. <a href="/hosting/">Inspect provider source status</a>.</p>')+'</div></section>',[itemlist(offers)])
     publish_beginner_pages(page,cfg)
-    if cfg.get('ai_tools_enabled')=='true':publish_ai_pages(page,cfg)
+    if cfg.get('ai_tools_enabled')=='true':
+        publish_pdf_guide(page,cfg)
+        publish_ai_pages(page,cfg)
     publish_guides(page,cfg)
     for p in cfg['providers']:
         items=[o for o in offers if o['provider_id']==p['id']];st=statuses.get(p['id'],{});check=st.get('checked_at','Not checked yet')
