@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "fetched_at": "2026-10-04T05:13:20+00:00",
+  "fetched_at": "2026-10-04T05:16:51+00:00",
   "locale": "en-US",
   "offers": [
     {
@@ -18,7 +18,7 @@
       "title": "IONOS VPS S+",
       "offer_url": "https://www.ionos.com/servers/vps",
       "source_url": "https://www.ionos.com/servers/vps",
-      "fetched_at": "2026-10-04T05:13:20+00:00",
+      "fetched_at": "2026-10-04T05:16:51+00:00",
       "source_sha256": "0b980e70ae3742711bd634142b10a8c41ddfcc857c15ab003b56f58dfb27a328"
     },
     {
@@ -36,7 +36,7 @@
       "title": "IONOS VPS M+",
       "offer_url": "https://www.ionos.com/servers/vps",
       "source_url": "https://www.ionos.com/servers/vps",
-      "fetched_at": "2026-10-04T05:13:20+00:00",
+      "fetched_at": "2026-10-04T05:16:51+00:00",
       "source_sha256": "0b980e70ae3742711bd634142b10a8c41ddfcc857c15ab003b56f58dfb27a328"
     },
     {
@@ -54,7 +54,7 @@
       "title": "IONOS VPS L+",
       "offer_url": "https://www.ionos.com/servers/vps",
       "source_url": "https://www.ionos.com/servers/vps",
-      "fetched_at": "2026-10-04T05:13:20+00:00",
+      "fetched_at": "2026-10-04T05:16:51+00:00",
       "source_sha256": "0b980e70ae3742711bd634142b10a8c41ddfcc857c15ab003b56f58dfb27a328"
     },
     {
@@ -72,7 +72,7 @@
       "title": "IONOS VPS XL+",
       "offer_url": "https://www.ionos.com/servers/vps",
       "source_url": "https://www.ionos.com/servers/vps",
-      "fetched_at": "2026-10-04T05:13:20+00:00",
+      "fetched_at": "2026-10-04T05:16:51+00:00",
       "source_sha256": "0b980e70ae3742711bd634142b10a8c41ddfcc857c15ab003b56f58dfb27a328"
     },
     {
@@ -90,7 +90,7 @@
       "title": "IONOS VPS XXL+",
       "offer_url": "https://www.ionos.com/servers/vps",
       "source_url": "https://www.ionos.com/servers/vps",
-      "fetched_at": "2026-10-04T05:13:20+00:00",
+      "fetched_at": "2026-10-04T05:16:51+00:00",
       "source_sha256": "0b980e70ae3742711bd634142b10a8c41ddfcc857c15ab003b56f58dfb27a328"
     }
   ],
@@ -99,7 +99,7 @@
       "provider_id": "ionos",
       "name": "IONOS",
       "source_url": "https://www.ionos.com/servers/vps",
-      "checked_at": "2026-10-04T05:13:20+00:00",
+      "checked_at": "2026-10-04T05:16:51+00:00",
       "robots": {
         "url": "https://www.ionos.com/robots.txt",
         "sha256": "d8f325ea817a0da0f0f53f49af2ca01641b3a4e0012491bdda0bdbaf8fed4a19",
@@ -113,7 +113,7 @@
       "provider_id": "digitalocean",
       "name": "DigitalOcean",
       "source_url": "https://www.digitalocean.com/pricing/droplets",
-      "checked_at": "2026-10-04T05:13:20+00:00",
+      "checked_at": "2026-10-04T05:16:51+00:00",
       "robots": {
         "url": "https://www.digitalocean.com/robots.txt",
         "sha256": "fa88d03d74f7d9a29da6780431c0eda495aad6e9d16eb080d7b07d966aad28a8",
@@ -127,7 +127,7 @@
       "provider_id": "hetzner",
       "name": "Hetzner",
       "source_url": "https://www.hetzner.com/cloud/",
-      "checked_at": "2026-10-04T05:13:20+00:00",
+      "checked_at": "2026-10-04T05:16:51+00:00",
       "robots": {
         "url": "https://www.hetzner.com/robots.txt",
         "sha256": "7c0e0de0a0469552e7ae48283d0c6e9c072deb795619b25ce7b377d8be90c986",
