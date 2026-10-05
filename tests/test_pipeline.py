@@ -1,7 +1,5 @@
-# ::ILANG
-# [TYPE:code][PROJECT:vps-deals][ROLE:regression-tests]
-# ::RULE{重点测试误价去重 过期陈旧与I-Lang配置生效}
-# ::BOUNDARY{never:测试样本发布成真实优惠}
+# Regression tests. Focus: wrong-price deduplication, expiry/staleness handling,
+# and that config changes take effect. Test fixtures must never be published as real offers.
 import unittest,json,tempfile
 from pathlib import Path
 from datetime import datetime,timezone,timedelta
@@ -27,12 +25,12 @@ class PipelineTests(unittest.TestCase):
         old=dict(provider_id=p,fetched_at=(now-timedelta(hours=49)).isoformat())
         expired=dict(provider_id=p,fetched_at=now.isoformat(),valid_until='2000-01-01')
         self.assertEqual(active_offers(cfg,dict(offers=[old,expired])),[])
-    def test_ilang_provider_change_changes_site(self):
-        cfg=load_config();raw=(ROOT/'.ilang/site.ilang').read_text(encoding='utf-8')
+    def test_config_provider_change_changes_site(self):
+        cfg=load_config();raw=(ROOT/'site-config'/'site.conf').read_text(encoding='utf-8')
         provider=cfg['providers'][0]
         altered='\n'.join(line for line in raw.splitlines() if not line.startswith(provider['name']+' |'))
         with tempfile.TemporaryDirectory() as d:
-            conf=Path(d)/'site.ilang';conf.write_text(altered,encoding='utf-8');output=Path(d)/'site'
+            conf=Path(d)/'site.conf';conf.write_text(altered,encoding='utf-8');output=Path(d)/'site'
             # Keep test builds from overwriting the real build report.
             with patch('build.ROOT',ROOT):build(conf,output)
             self.assertFalse((output/'providers'/provider['id']).exists())
@@ -48,7 +46,7 @@ class PipelineTests(unittest.TestCase):
             original=("on:\r\n  schedule:\r\n    - cron: '"+load_config()['cron']+"'\r\n").encode('utf-8')
             workflow.write_bytes(original)
             # Use real inputs/assets, but direct mutable reports/workflow into temp.
-            for folder in ['assets','templates','.ilang']:
+            for folder in ['assets','templates','site-config']:
                 __import__('shutil').copytree(ROOT/folder,root/folder)
             __import__('shutil').copy(ROOT/'data/offers.json',root/'data/offers.json')
             with patch('build.ROOT',root):build()

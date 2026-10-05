@@ -1,4 +1,3 @@
-# ::ILANG
 # [TYPE:code][PROJECT:vps-deals][ROLE:public-source-scraper]
 # ::RULE{先检查robots;只解析可核验当期价格;失败就不展示}
 # ::BOUNDARY{never:反爬绕过 编价格 编有效期 续费价冒充促销价}

@@ -29,7 +29,7 @@ Cloudflare Pages build command: `python build.py`; output: `site/`. Connect the 
 
 ## Configuration that changes the site
 
-`.ilang/site.ilang` is parsed by both scraper and builder. Edit the provider rows, brand or base_url, then run the pipeline. The regression test removes a provider and checks that its page and navigation disappear. The first version intentionally supports only en-US; add real regional source adapters before extending languages.
+`site-config/site.conf` is parsed by both scraper and builder. Edit the provider rows, brand or base_url, then run the pipeline. The regression test removes a provider and checks that its page and navigation disappear. The first version intentionally supports only en-US; add real regional source adapters before extending languages.
 
 The same configuration holds `operator_name`, `contact_email` and `privacy_updated`. About and contact pages are published only when the corresponding real details have been supplied. No advertising or analytics code is installed. Before adding an approved network, update the privacy policy, required consent handling and Content Security Policy for that exact integration.
 
@@ -49,10 +49,10 @@ X and Facebook are deferred. Reuse the brand mark, tagline and main-site URL if 
 
 ## Move to a custom domain
 
-After registration, activate it in Pages and DNS, set `base_url` and `@SITE.domain` in `.ilang/site.ilang`, rebuild and verify every canonical and sitemap URL. Domain age, repository commits and structured data do not guarantee rankings or rich results.
+After registration, activate it in Pages and DNS, set `base_url` and `@SITE.domain` in `site-config/site.conf`, rebuild and verify every canonical and sitemap URL. Domain age, repository commits and structured data do not guarantee rankings or rich results.
 
-站点规则用 I-Lang 协议描述，见 `.ilang/site.ilang`；协议说明： https://ilang.ai 。
+站点规则用结构化配置标记描述，见 `site-config/site.conf`。
 
 ## AI Tools
 
-The `/ai-tools/` collection is manually reviewed editorial content with official product sources and no invented coupons or prices. `.ilang/site.ilang` controls `ai_tools_enabled` and `ai_content_updated`. `ai_content.py` contains the guides. These dates are independent of automated VPS fetch timestamps. Disable the flag to remove the collection and its navigation/sitemap entries. No affiliate commission is configured for the AI listings.
+The `/ai-tools/` collection is manually reviewed editorial content with official product sources and no invented coupons or prices. `site-config/site.conf` controls `ai_tools_enabled` and `ai_content_updated`. `ai_content.py` contains the guides. These dates are independent of automated VPS fetch timestamps. Disable the flag to remove the collection and its navigation/sitemap entries. No affiliate commission is configured for the AI listings.

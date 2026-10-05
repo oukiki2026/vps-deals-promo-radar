@@ -1,7 +1,7 @@
-# ::ILANG
-# [TYPE:code][PROJECT:vps-deals][ROLE:static-builder]
-# ::RULE{从site.ilang读品牌厂商域名;从数据读事实;过期与陈旧记录下架}
-# ::BOUNDARY{never:编价格有效期 把schema当排名保证 输出凭据}
+# Static site builder. Brand and providers come from site-config/site.conf;
+# facts come from data; expired and stale records are dropped.
+# Never invent prices or validity periods, present schema as a ranking guarantee,
+# or write credentials into the output.
 from config import ROOT,load_config
 from datetime import datetime,timezone,timedelta
 from pathlib import Path

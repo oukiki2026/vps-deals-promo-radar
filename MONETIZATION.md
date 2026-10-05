@@ -16,6 +16,6 @@ Use current [CJ](https://www.cj.com/), [Impact](https://impact.com/) or [Awin](h
 
 ## After approval
 
-Put the approved matching destination in the fourth column of the relevant provider in `.ilang/site.ilang`. Rebuild. The page discloses the commission relationship and adds `rel=sponsored`. Review per-plan landing compatibility: a general provider affiliate URL must not imply that it opens a specific checkout.
+Put the approved matching destination in the fourth column of the relevant provider in `site-config/site.conf`. Rebuild. The page discloses the commission relationship and adds `rel=sponsored`. Review per-plan landing compatibility: a general provider affiliate URL must not imply that it opens a specific checkout.
 
 Do not purchase from your own links, inject cookies, bid on prohibited brand terms, invent coupons, fabricate income history or imply affiliate approval before it exists. Preserve platform reports and dated source-check commits if a future sale needs verifiable operating or revenue history. No claim is made about resale value.

@@ -5,9 +5,9 @@ from config import ROOT
 
 class AiContentTests(unittest.TestCase):
     def test_config_disables_pages_navigation_and_sitemap(self):
-        raw=(ROOT/'.ilang/site.ilang').read_text(encoding='utf-8')
+        raw=(ROOT/'site-config'/'site.conf').read_text(encoding='utf-8')
         with tempfile.TemporaryDirectory() as d:
-            config=Path(d)/'site.ilang';output=Path(d)/'site'
+            config=Path(d)/'site.conf';output=Path(d)/'site'
             config.write_text(raw,encoding='utf-8');build(config,output)
             self.assertTrue((output/'ai-tools/cursor/index.html').exists())
             self.assertIn('/ai-tools/cursor/',(output/'sitemap.xml').read_text())

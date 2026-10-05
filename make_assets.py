@@ -1,4 +1,3 @@
-# ::ILANG
 # [TYPE:code][PROJECT:vps-deals][ROLE:static-brand-assets]
 # ::RULE{纯标准库生成真实PNG社交图;不使用外部付费服务}
 # ::BOUNDARY{never:把装饰图当价格证据}

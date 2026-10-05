@@ -1,4 +1,3 @@
-# ::ILANG
 # [TYPE:code][PROJECT:vps-deals][ROLE:output-validation]
 # ::RULE{核验canonical sitemap schema与真实方案数量}
 # ::BOUNDARY{never:用测试通过冒充富媒体展示保证}
