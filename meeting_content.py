@@ -1,3 +1,16 @@
+WW_AD_VIDEO = (
+    '<section class="section" id="ww-affiliate-video"><p class="eyebrow">AFFILIATE ADVERTISEMENT</p>'
+    '<h2>Turning recordings into finished videos?</h2>'
+    '<p>If your workflow ends with an edited video rather than a transcript, compare the provider\u2019s current '
+    'features, plans and limits before choosing editing software.</p>'
+    '<p><a class="button" href="https://kjuzv.com/g/8u3trxihmwb059e94582ef655e4ac9/" rel="sponsored noopener">'
+    'Explore video software \u2192</a></p>'
+    '<p>We may earn a commission on qualifying purchases through this link.</p>'
+    '<p>This link uses an affiliate redirect. See our '
+    '<a href="/privacy/#affiliate-links">privacy policy</a> before following it.</p></section>'
+)
+
+
 """Independent workflow guides, without affiliate creatives or coupon claims."""
 
 GUIDES = [
@@ -73,11 +86,17 @@ GUIDES = [
 
 def publish_meeting_pages(page, date):
     for slug, title, description, content in GUIDES:
+        if slug == 'audio-video-transcription':
+            content = content + WW_AD_VIDEO
+            affiliate_note = ('This page contains a labelled affiliate advertisement. '
+                              'No verified promotional coupon is claimed.')
+        else:
+            affiliate_note = ('No affiliate commission is configured '
+                              'and no verified promotional coupon is claimed.')
         body = ('<section class="page-hero"><p class="eyebrow">AI WORKFLOW GUIDE</p>'
                 f'<h1>{title}</h1><p class="lede">{description}</p></section>'
                 '<article class="prose">' + content +
-                '<p>Independent editorial guidance. No affiliate commission is configured '
-                'and no verified promotional coupon is claimed. '
+                '<p>Independent editorial guidance. ' + affiliate_note + ' '
                 'No hands-on product benchmark is claimed.</p>'
                 '<p><a href="/ai-tools/">← All AI tools and practical guides</a></p></article>')
         page('/ai-tools/' + slug + '/', title, description, body, lastmod=date)
