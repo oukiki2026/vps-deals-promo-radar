@@ -12,7 +12,7 @@ cron = 17 */6 * * *
 max_age_hours = 48
 fields = title price currency offer_url valid_until source_url fetched_at
 pages = index provider deal compare methodology privacy about contact
-privacy_updated = 2026-10-04
+privacy_updated = 2026-10-05
 operator_name = OuKiki
 contact_email = oukiki2026@gmail.com
 ::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
