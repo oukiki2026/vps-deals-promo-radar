@@ -1,7 +1,7 @@
-# Static site builder. Brand and providers come from site-config/site.conf;
-# facts come from data; expired and stale records are dropped.
-# Never invent prices or validity periods, present schema as a ranking guarantee,
-# or write credentials into the output.
+# ::ILANG
+# [TYPE:code][PROJECT:vps-deals][ROLE:static-builder]
+# ::RULE{从site.ilang读品牌厂商域名;从数据读事实;过期与陈旧记录下架}
+# ::BOUNDARY{never:编价格有效期 把schema当排名保证 输出凭据}
 from config import ROOT,load_config
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
@@ -13,6 +13,7 @@ from ai_content import publish_ai_pages
 from guides import publish_guides
 from beginner_content import publish_beginner_pages
 from pdf_content import publish_pdf_guide
+from export_content import publish_export_guide
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -67,6 +68,7 @@ def build(config_path=None,output=None):
     publish_beginner_pages(page,cfg)
     if cfg.get('ai_tools_enabled')=='true':
         publish_pdf_guide(page,cfg)
+        publish_export_guide(page,cfg)
         publish_ai_pages(page,cfg)
     publish_guides(page,cfg)
     for p in cfg['providers']:
