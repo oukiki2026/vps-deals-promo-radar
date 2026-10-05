@@ -38,6 +38,10 @@ def build(config_path=None,output=None):
     (out/'assets/editorial').mkdir()
     for diagram in (ROOT/'assets/editorial').glob('*.svg'):
         shutil.copy(diagram,out/'assets/editorial'/diagram.name)
+    measurement_id=cfg.get('ga4_measurement_id','')
+    if measurement_id and not re.fullmatch(r'G-[A-Z0-9]+',measurement_id):raise ValueError('Invalid GA4 measurement ID')
+    analytics_markup=(f'<script defer src="/assets/analytics.js?v=1" data-measurement-id="{measurement_id}"></script>' if measurement_id else '')
+    if measurement_id:shutil.copy(ROOT/'assets/analytics.js',out/'assets/analytics.js')
     style_version=hashlib.sha256((ROOT/'assets/style.css').read_bytes()).hexdigest()[:12]
     (out/'data').mkdir();public_data=dict(data,offers=offers,providers=[p for p in data['providers'] if p['provider_id'] in {x['id'] for x in cfg['providers']}]);(out/'data/offers.json').write_text(json.dumps(public_data,indent=2),encoding='utf-8')
     providers={p['id']:p for p in cfg['providers']};statuses={p['provider_id']:p for p in data['providers']}
@@ -56,7 +60,7 @@ def build(config_path=None,output=None):
         if cfg.get('contact_email'):support_links+='<a href="/contact/">Contact</a>'
         ai_nav='<a href="/offers/">Verified offers</a><a href="/hosting/">Hosting</a>'
         if cfg.get('ai_tools_enabled')=='true':ai_nav='<a href="/start/">Start here</a><a href="/ai-tools/">AI Tools</a><a href="/free-ai/">Free AI</a>'+ai_nav
-        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links,style_version=style_version,ai_nav=ai_nav)
+        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links,style_version=style_version,ai_nav=ai_nav,analytics_markup=analytics_markup)
         target=out/path.lstrip('/')/'index.html' if path!='/' else out/'index.html';target.parent.mkdir(parents=True,exist_ok=True);target.write_text(html,encoding='utf-8');paths.append((path,lastmod or data['fetched_at']))
     nav=''.join(f'<a class="provider-pill" href="/providers/{p["id"]}/">{escape(p["name"])}</a>' for p in cfg['providers'])
     ai_intro='<section class="section"><div class="section-heading"><h2>AI tools for your next project</h2><a href="/ai-tools/">Explore AI Tools →</a></div><p>Compare coding assistants, AI website builders and model deployment options. Check free entry points, usage limits and the costs beyond a subscription.</p></section>' if cfg.get('ai_tools_enabled')=='true' else ''
@@ -99,7 +103,10 @@ def build(config_path=None,output=None):
         page('/contact/',f'Contact | {cfg["brand"]}','Report an incorrect offer, ask about privacy or contact the site operator.',render('contact.html',email=escape(email),repo=escape(cfg['repository'])))
     sitemap='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{xml_escape(url(path))}</loc><lastmod>{xml_escape(stamp)}</lastmod></url>' for path,stamp in paths)+'</urlset>'
     (out/'sitemap.xml').write_text(sitemap,encoding='utf-8');(out/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+url('/sitemap.xml')+'\n',encoding='utf-8')
-    (out/'_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Content-Security-Policy: default-src \'self\'; style-src \'self\'; img-src \'self\'; script-src https://static.cloudflareinsights.com; connect-src \'self\' https://cloudflareinsights.com; frame-ancestors \'none\'\n',encoding='utf-8')
+    analytics_scripts=" https://www.googletagmanager.com" if measurement_id else ""
+    analytics_connections=" https://www.googletagmanager.com https://*.google-analytics.com https://*.google.com" if measurement_id else ""
+    analytics_images=" https://www.googletagmanager.com https://*.google-analytics.com" if measurement_id else ""
+    (out/'_headers').write_text("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Content-Security-Policy: default-src 'self'; style-src 'self'; img-src 'self'"+analytics_images+"; script-src 'self' https://static.cloudflareinsights.com"+analytics_scripts+"; connect-src 'self' https://cloudflareinsights.com"+analytics_connections+"; frame-ancestors 'none'\n",encoding='utf-8')
     # Static 404 prevents Pages SPA fallback from returning the homepage for removed offers.
     (out/'404.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/style.css"><title>Page unavailable</title><main><section class="page-hero"><h1>Page unavailable</h1><p>This offer may have expired or failed verification, or the address may be incorrect.</p><a class="button" href="/">View current offers</a></section></main></html>'.replace('href="/assets/style.css"',f'href="/assets/style.css?v={style_version}"'),encoding='utf-8')
     if not config_path and not output:
