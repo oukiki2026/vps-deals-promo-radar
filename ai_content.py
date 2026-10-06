@@ -33,17 +33,29 @@ TOOLS = [
 
 def publish_ai_pages(page, cfg):
     date=cfg.get('ai_content_updated','2026-10-02')
-    def publish(path,title,description,body):
-        page(path,title,description,body,lastmod=date)
+    hub_date=cfg.get('ai_hub_updated',date)
+    def publish(path,title,description,body,lastmod=None):
+        page(path,title,description,body,lastmod=lastmod or date)
     cards=''.join(f'<article class="card"><p class="eyebrow">{escape(t["category"])}</p><h3><a href="/ai-tools/{t["slug"]}/">{escape(t["name"])}</a></h3><p>{escape(t["summary"])}</p><a class="arrow" href="/ai-tools/{t["slug"]}/">Read the buying guide →</a></article>' for t in TOOLS)
     rows=''.join(f'<tr><td><a href="/ai-tools/{t["slug"]}/">{escape(t["name"])}</a></td><td>{escape(t["category"])}</td><td>{escape(t["limits"])}</td></tr>' for t in TOOLS)
     meeting_cards=''.join(f'<article class="card"><p class="eyebrow">AI WORKFLOW</p><h3><a href="/ai-tools/{slug}/">{escape(title)}</a></h3><p>{escape(description)}</p></article>' for slug,title,description,_ in MEETING_GUIDES)
-    publish('/ai-tools/','AI tools for developers and website builders','Source-linked AI tool buying guides, free entry points and billing checks.',
-        '<section class="page-hero"><p class="eyebrow">AI TOOLS</p><h1>Build more.<br><span>Understand what you pay for.</span></h1><p class="lede">Choose a coding assistant, a website builder or a model deployment service around the job you need to finish.</p></section>'
+    task_routes=(
+        '<section class="section" id="task-routes"><div class="section-heading"><h2>Start with the task, then choose a tool</h2><a href="/free-ai/">Compare free entry points →</a></div>'
+        '<p>Pick the checkpoint that matches the work in front of you. Each route includes an input, a finish condition and a check you can perform yourself.</p><div class="grid task-grid">'
+        '<article class="card"><p class="eyebrow">WRITE</p><h3><a href="/start/">Turn notes into a checked draft</a></h3><p>Keep facts, missing details and the action you control separate.</p></article>'
+        '<article class="card"><p class="eyebrow">READ A PDF</p><h3><a href="/ai-tools/scanned-pdf-to-text/">Prepare readable document text</a></h3><p>Decide whether OCR is needed, preserve page labels and verify extracted values.</p></article>'
+        '<article class="card"><p class="eyebrow">FINISH A FILE</p><h3><a href="/ai-tools/check-free-ai-export/">Save, reopen and edit the result</a></h3><p>Test the destination with a small fictional fixture before relying on it.</p></article>'
+        '<article class="card"><p class="eyebrow">LIMIT REACHED</p><h3><a href="/ai-tools/save-free-ai-progress/">Save progress before access stops</a></h3><p>Keep source-labelled input, checked facts, the unfinished draft and one next action.</p></article>'
+        '<article class="card"><p class="eyebrow">MEETING</p><h3><a href="/ai-tools/ai-meeting-notes/">Plan a meeting-notes handoff</a></h3><p>Define capture, correction, decisions, owners and the export destination.</p></article>'
+        '<article class="card"><p class="eyebrow">COMPARE PLANS</p><h3><a href="/free-ai/">Check what “free” covers</a></h3><p>Separate a free app, a limited plan, a trial and paid API usage.</p></article>'
+        '</div></section>')
+    publish('/ai-tools/','AI tools for developers and website builders','Source-linked AI task guides, free entry points and buying checks.',
+        '<section class="page-hero task-hero"><p class="eyebrow">AI TOOLS</p><h1>Choose the task.<br><span>Then choose the tool.</span></h1><p class="lede">Start with what must be finished: a checked draft, readable PDF, editable file, saved handoff or meeting record. Use the task routes below before comparing products or plans.</p><div class="task-links"><a href="#task-routes">Find a workflow</a><a href="/free-ai/">Compare free access</a><a href="#product-guides">Browse product guides</a></div></section>'
+        +task_routes+
         '<div class="notice">No verified promotional coupon is listed in this collection. Free plans and standard subscriptions are not discounts. Product links go directly to official sites; no affiliate commission is configured for product listings. Two workflow guides contain a labelled affiliate advertisement.</div>'
-        '<section class="section"><div class="grid">'+cards+MUSE_CARD+'</div></section><section class="section"><h2>Choose by the work, not the label</h2><div class="table-wrap"><table><thead><tr><th>Tool</th><th>Use case</th><th>Before you pay</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'
+        '<section class="section" id="product-guides"><div class="section-heading"><h2>Product guides</h2><a href="#task-routes">Back to task routes ↑</a></div><div class="grid">'+cards+MUSE_CARD+'</div></section><section class="section"><h2>Choose by the work, not the label</h2><div class="table-wrap"><table><thead><tr><th>Tool</th><th>Use case</th><th>Before you pay</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'
         '<section class="section"><h2>Meeting notes, transcription and summaries</h2><p>Choose a tool around capture, correction, export and access. These independent workflow guides help you evaluate the complete handoff before subscribing.</p><div class="grid">'+meeting_cards+'</div></section>'
-        '<section class="prose"><h2>Practical guides</h2><p><a href="/ai-tools/coding-assistant-checklist/">Choose an AI coding assistant without buying overlapping subscriptions</a></p><p><a href="/ai-tools/ai-app-budget/">Plan an AI app budget: tools, hosting and model usage</a></p><h2>How we review</h2><p>Product facts are based on the linked official sources. Buying advice is our editorial judgment, not a benchmark or a claim of hands-on testing. This collection is manually reviewed and is separate from the automated VPS price monitor. Source review date: '+escape(date)+'. Check the official page before purchase.</p></section>')
+        '<section class="prose"><h2>Practical guides</h2><p><a href="/ai-tools/coding-assistant-checklist/">Choose an AI coding assistant without buying overlapping subscriptions</a></p><p><a href="/ai-tools/ai-app-budget/">Plan an AI app budget: tools, hosting and model usage</a></p><p><a href="/ai-tools/check-free-ai-export/">Check whether a result stays usable after export</a></p><p><a href="/ai-tools/save-free-ai-progress/">Build a handoff before a free usage limit interrupts the task</a></p><h2>How we review</h2><p>Product facts are based on the linked official sources. Buying advice is our editorial judgment, not a benchmark or a claim of hands-on testing. This collection is manually reviewed and is separate from the automated VPS price monitor. Product source review date: '+escape(date)+'. Task hub review date: '+escape(hub_date)+'. Check the official page before purchase.</p></section>',lastmod=hub_date)
     publish_meeting_pages(page,cfg.get('meeting_content_updated','2026-10-03'))
     publish_muse(page)
     for t in TOOLS:
