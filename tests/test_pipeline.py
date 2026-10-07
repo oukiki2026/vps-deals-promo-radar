@@ -36,6 +36,16 @@ class PipelineTests(unittest.TestCase):
             self.assertFalse((output/'providers'/provider['id']).exists())
             self.assertNotIn('/providers/'+provider['id']+'/',(output/'index.html').read_text(encoding='utf-8'))
 
+    def test_config_rejects_unknown_sections_and_duplicate_keys(self):
+        raw=(ROOT/'site-config'/'site.conf').read_text(encoding='utf-8')
+        invalid=[raw+'\n[unknown]\nbrand = other\n',
+                 raw.replace('[settings]', '[settings]\nbrand = other')]
+        with tempfile.TemporaryDirectory() as d:
+            conf=Path(d)/'site.conf'
+            for text in invalid:
+                conf.write_text(text,encoding='utf-8')
+                with self.assertRaises(ValueError):load_config(conf)
+
     def test_unchanged_cron_keeps_workflow_bytes(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)

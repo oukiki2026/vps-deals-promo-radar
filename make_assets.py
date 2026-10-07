@@ -1,6 +1,4 @@
-# [TYPE:code][PROJECT:vps-deals][ROLE:static-brand-assets]
-# ::RULE{纯标准库生成真实PNG社交图;不使用外部付费服务}
-# ::BOUNDARY{never:把装饰图当价格证据}
+# Generate static brand images with the Python standard library.
 from config import ROOT,load_config
 import struct,zlib
 

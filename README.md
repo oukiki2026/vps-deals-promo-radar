@@ -11,7 +11,7 @@ Site information: [About](https://kikomono.com/about/) · [Contact](https://kiko
 
 ## What this is
 
-A public, deterministic offer-monitoring pipeline for en-US. It reads official public pages, checks robots.txt and publishes only plans with identifiable names, current prices and billing conditions. Providers that cannot be verified remain visible without prices. No estimated search volumes, fake discounts or guaranteed-income claims.
+English AI workflow guides with a deterministic official-source offer-monitoring pipeline. It reads official public pages, checks robots.txt and publishes only plans with identifiable names, current prices and billing conditions. Providers that cannot be verified remain visible without prices. No estimated search volumes, fake discounts or guaranteed-income claims.
 
 ## Run locally
 
@@ -29,9 +29,9 @@ Cloudflare Pages build command: `python build.py`; output: `site/`. Connect the 
 
 ## Configuration that changes the site
 
-`site-config/site.conf` is parsed by both scraper and builder. Edit the provider rows, brand or base_url, then run the pipeline. The regression test removes a provider and checks that its page and navigation disappear. The first version intentionally supports only en-US; add real regional source adapters before extending languages.
+`site-config/site.conf` is parsed by both scraper and builder. Use `[site]` for identity, `[settings]` for build options and `[providers]` for pipe-separated provider rows. Edit values, then run the pipeline. The regression test removes a provider and checks that its page and navigation disappear. The first version intentionally supports only en-US; add real regional source adapters before extending languages.
 
-The same configuration holds `operator_name`, `contact_email` and `privacy_updated`. About and contact pages are published only when the corresponding real details have been supplied. No advertising or analytics code is installed. Before adding an approved network, update the privacy policy, required consent handling and Content Security Policy for that exact integration.
+The same configuration holds `operator_name`, `contact_email` and `privacy_updated`. About and contact pages are published only when the corresponding real details have been supplied. Approved affiliate placements and analytics are configured. Keep privacy disclosures, consent handling and Content Security Policy aligned with the actual integrations.
 
 The scheduled workflow requests a check every six hours, at minute 17 UTC. Execution may be delayed or fail. Verification timestamps are genuine retrieval times, not claims that the price is still available. Scheduled public workflows can be disabled after inactivity by GitHub. See [GitHub schedule rules](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/disable-and-enable-workflows) and [Actions billing](https://docs.github.com/en/actions/concepts/billing-and-usage). Standard hosted runners are free for public repositories, subject to GitHub terms. Cloudflare Pages has a [Free-plan build limit](https://developers.cloudflare.com/pages/platform/limits/).
 
@@ -43,16 +43,12 @@ The initial IONOS adapter extracts the visible US VPS+ plan cards, including int
 
 ## Monetization, when approved
 
-No affiliate links or commissions are configured at launch. The fourth provider column accepts an approved provider-specific affiliate destination later. Links get disclosure and `rel=sponsored` automatically. Evaluate managed-hosting recurring offers only through a provider's official program and approved CJ/Impact or successor platform terms. No invented revenue or commission; no cookie injection, self-referral or brand bidding. A website is not an affiliate approval.
-
-X and Facebook are deferred. Reuse the brand mark, tagline and main-site URL if accounts are created later. Do not post an unverified offer or automatically claim a largest discount without a verified comparison basis.
+Approved software affiliate placements are listed in `MONETIZATION.md`. Hosting provider rows currently use direct official links; the fourth column accepts an approved provider-specific affiliate destination. Links get disclosure and `rel=sponsored` automatically. No invented revenue or commission; no cookie injection, self-referral or brand bidding. A website is not an affiliate approval.
 
 ## Move to a custom domain
 
-After registration, activate it in Pages and DNS, set `base_url` and `@SITE.domain` in `site-config/site.conf`, rebuild and verify every canonical and sitemap URL. Domain age, repository commits and structured data do not guarantee rankings or rich results.
-
-站点规则用结构化配置标记描述，见 `site-config/site.conf`。
+After registration, activate it in Pages and DNS, set `base_url` and `domain` in `site-config/site.conf`, rebuild and verify every canonical and sitemap URL. Domain age, repository commits and structured data do not guarantee rankings or rich results.
 
 ## AI Tools
 
-The `/ai-tools/` collection is manually reviewed editorial content with official product sources and no invented coupons or prices. `site-config/site.conf` controls `ai_tools_enabled` and `ai_content_updated`. `ai_content.py` contains the guides. These dates are independent of automated VPS fetch timestamps. Disable the flag to remove the collection and its navigation/sitemap entries. No affiliate commission is configured for the AI listings.
+The `/ai-tools/` collection is manually reviewed editorial content with official product sources and no invented coupons or prices. `site-config/site.conf` controls `ai_tools_enabled` and `ai_content_updated`. `ai_content.py` contains the guides. These dates are independent of automated VPS fetch timestamps. Disable the flag to remove the collection and its navigation/sitemap entries. Product listings use direct official links; designated hub and workflow placements contain labelled affiliate advertisements.

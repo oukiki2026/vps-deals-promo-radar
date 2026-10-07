@@ -13,18 +13,29 @@ def slug(value):
 
 def load_config(path=CONFIG):
     raw = Path(path).read_text(encoding='utf-8-sig')
-    state = re.search(r'::STATE\{@SITE,([^}]+)\}', raw)
-    if not state: raise ValueError('Missing @SITE')
-    cfg = dict(part.strip().split(':',1) for part in state[1].split(','))
-    cfg = {k.strip():v.strip() for k,v in cfg.items()}
-    cfg['providers'] = []
-    module = ''
+    cfg = {'providers': []}
+    section = ''
     for line in raw.splitlines():
-        if line.startswith('::MODULE{'): module=line.split('{',1)[1].split('|',1)[0];continue
-        if line.startswith('::'): module='';continue
-        if module=='SETTINGS' and '=' in line:
-            k,v=line.split('=',1);cfg[k.strip()]=v.strip()
-        if module=='PROVIDERS' and line.strip():
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        if line.startswith('[') and line.endswith(']'):
+            section = line[1:-1]
+            if section not in {'site', 'settings', 'providers'}:
+                raise ValueError('Unknown configuration section')
+            continue
+        if section in {'site', 'settings'}:
+            if '=' not in line:
+                raise ValueError('Setting must have a key and value')
+            key, value = line.split('=', 1)
+            key = key.strip()
+            if key in cfg:
+                raise ValueError('Duplicate configuration key')
+            cfg[key] = value.strip()
+            continue
+        if section != 'providers':
+            raise ValueError('Configuration value outside a section')
+        if section=='providers':
             columns=[x.strip() for x in line.split('|')]
             if len(columns)!=4: raise ValueError('Provider must have four columns')
             name,home,source,affiliate=columns

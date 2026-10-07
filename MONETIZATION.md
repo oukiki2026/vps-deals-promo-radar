@@ -1,21 +1,16 @@
-# Monetization status
+# Affiliate placements
 
-No affiliate account approval, affiliate URL, earned commission or revenue has been claimed or configured.
+Approved advertisements are live in these locations:
 
-## Current source list
+| Program | Placements |
+|---|---|
+| Systeme.io | Homepage |
+| Wondershare (Admitad) | Homepage, scanned-PDF guide, audio/video transcription guide |
+| Proton Lumo (Admitad) | AI Tools hub |
+| Notta | Meeting-notes guide; official banner |
 
-| Provider | Official program information | Decision for launch |
-|---|---|---|
-| IONOS | [Official referral help](https://www.ionos.com/help/participation-in-the-ionos-referral-program-powered-by-aklamio/) | Referral conditions are provider-specific. Do not assume recurring commissions or approval. Keep direct links. |
-| DigitalOcean | [Official website](https://www.digitalocean.com/) | No approved network offer supplied. Keep direct links. |
-| Hetzner | [Official website](https://www.hetzner.com/) | No approved network offer supplied. Keep direct links. |
+Keep existing tracking URLs, approved assets, `rel="sponsored noopener"`, commission disclosures and privacy links. Page and index statements must match their actual advertising status. Do not modify official banner artwork.
 
-Managed-hosting recurring offers require a separate verified source and approved program. They cannot be invented or inferred from these VPS prices. [Cloudways' official affiliate FAQ](https://support.cloudways.com/en/articles/5134056-how-to-join-cloudways-affiliate-program-faqs-benefits) describes a recurring model, but Cloudways is not in the launched source list and we have not obtained approval; it is a later evaluation candidate, not an active monetized offer.
+Hosting provider rows in `site-config/site.conf` currently use direct official links. Approval for one program or site does not authorize another placement. New applications and placements are paused; focus on content.
 
-Use current [CJ](https://www.cj.com/), [Impact](https://impact.com/) or [Awin](https://www.awin.com/) advertiser terms when applicable. [Awin's official announcement](https://www.awin.com/ca/news-and-events/awin-news/awin-shareasale-new-era) says the standalone ShareASale platform closed; do not treat an old ShareASale signup link as a current program.
-
-## After approval
-
-Put the approved matching destination in the fourth column of the relevant provider in `site-config/site.conf`. Rebuild. The page discloses the commission relationship and adds `rel=sponsored`. Review per-plan landing compatibility: a general provider affiliate URL must not imply that it opens a specific checkout.
-
-Do not purchase from your own links, inject cookies, bid on prohibited brand terms, invent coupons, fabricate income history or imply affiliate approval before it exists. Preserve platform reports and dated source-check commits if a future sale needs verifiable operating or revenue history. No claim is made about resale value.
+Live links do not establish payout eligibility, earned commission or revenue. Use actual platform evidence for those claims. Do not invent coupons or income, buy through your own links, inject cookies or bid on prohibited brand terms.

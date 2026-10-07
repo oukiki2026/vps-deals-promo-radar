@@ -1,6 +1,4 @@
-# [TYPE:code][PROJECT:vps-deals][ROLE:output-validation]
-# ::RULE{核验canonical sitemap schema与真实方案数量}
-# ::BOUNDARY{never:用测试通过冒充富媒体展示保证}
+# Check generated URLs, structured data and offer counts.
 from config import ROOT,load_config
 from build import active_offers
 from html.parser import HTMLParser
