@@ -36,6 +36,7 @@ def build(config_path=None,output=None):
     if out.exists():shutil.rmtree(out)
     out.mkdir(parents=True);(out/'assets').mkdir();shutil.copy(ROOT/'assets/style.css',out/'assets/style.css');shutil.copy(ROOT/'assets/logo.svg',out/'assets/logo.svg')
     shutil.copy(ROOT/'assets/og.png',out/'assets/og.png')
+    shutil.copytree(ROOT/'assets/affiliate',out/'assets/affiliate')
     (out/'assets/editorial').mkdir()
     for diagram in (ROOT/'assets/editorial').glob('*.svg'):
         shutil.copy(diagram,out/'assets/editorial'/diagram.name)

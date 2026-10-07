@@ -1,3 +1,17 @@
+NOTTA_AD = (
+    '<section class="section" id="notta-affiliate"><p class="eyebrow">AFFILIATE ADVERTISEMENT</p>'
+    '<h2>Notta official advertisement</h2>'
+    '<p>Official advertiser-supplied banner.</p>'
+    '<p><a href="https://ypetp.com/g/7gbdp8tygub059e94582f50bb56640/" rel="sponsored noopener">'
+    '<img src="/assets/affiliate/notta-official-336x280.png" width="336" height="280" loading="lazy" '
+    'alt="Notta: Empowering Teams with AI-Driven Meeting Intelligence."></a></p>'
+    '<p><a class="button" href="https://ypetp.com/g/7gbdp8tygub059e94582f50bb56640/" rel="sponsored noopener">Notta</a></p>'
+    '<p>We may earn a commission on qualifying purchases through these links.</p>'
+    '<p>These links use an affiliate redirect. See our '
+    '<a href="/privacy/#affiliate-links">privacy policy</a> before following them.</p></section>'
+)
+
+
 WW_AD_VIDEO = (
     '<section class="section" id="ww-affiliate-video"><p class="eyebrow">AFFILIATE ADVERTISEMENT</p>'
     '<h2>Turning recordings into finished videos?</h2>'
@@ -11,7 +25,7 @@ WW_AD_VIDEO = (
 )
 
 
-"""Independent workflow guides, without affiliate creatives or coupon claims."""
+"""Independent workflow guides with labelled advertisements on selected pages."""
 
 GUIDES = [
     ('ai-meeting-notes', 'Choose an AI meeting note taker',
@@ -88,6 +102,10 @@ def publish_meeting_pages(page, date):
     for slug, title, description, content in GUIDES:
         if slug == 'audio-video-transcription':
             content = content + WW_AD_VIDEO
+            affiliate_note = ('This page contains a labelled affiliate advertisement. '
+                              'No verified promotional coupon is claimed.')
+        elif slug == 'ai-meeting-notes':
+            content = content + NOTTA_AD
             affiliate_note = ('This page contains a labelled affiliate advertisement. '
                               'No verified promotional coupon is claimed.')
         else:
