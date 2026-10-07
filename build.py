@@ -42,6 +42,8 @@ def build(config_path=None,output=None):
     measurement_id=cfg.get('ga4_measurement_id','')
     if measurement_id and not re.fullmatch(r'G-[A-Z0-9]+',measurement_id):raise ValueError('Invalid GA4 measurement ID')
     analytics_markup=(f'<script defer src="/assets/analytics.js?v=1" data-measurement-id="{measurement_id}"></script>' if measurement_id else '')
+    umami_id=cfg.get('umami_website_id','')
+    if umami_id:analytics_markup+=f'<script defer src="https://stats.china0432.com/script.js" data-website-id="{umami_id}"></script>'
     if measurement_id:shutil.copy(ROOT/'assets/analytics.js',out/'assets/analytics.js')
     style_version=hashlib.sha256((ROOT/'assets/style.css').read_bytes()).hexdigest()[:12]
     (out/'data').mkdir();public_data=dict(data,offers=offers,providers=[p for p in data['providers'] if p['provider_id'] in {x['id'] for x in cfg['providers']}]);(out/'data/offers.json').write_text(json.dumps(public_data,indent=2),encoding='utf-8')
