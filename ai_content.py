@@ -1,4 +1,4 @@
-"""Source-linked editorial guides; no prices, coupon codes or affiliate claims."""
+"""Source-linked editorial guides with a labelled Lumo affiliate advertisement."""
 from html import escape
 from meeting_content import GUIDES as MEETING_GUIDES, publish_meeting_pages
 from muse_content import MUSE_CARD, publish_muse
@@ -49,10 +49,17 @@ def publish_ai_pages(page, cfg):
         '<article class="card"><p class="eyebrow">MEETING</p><h3><a href="/ai-tools/ai-meeting-notes/">Plan a meeting-notes handoff</a></h3><p>Define capture, correction, decisions, owners and the export destination.</p></article>'
         '<article class="card"><p class="eyebrow">COMPARE PLANS</p><h3><a href="/free-ai/">Check what “free” covers</a></h3><p>Separate a free app, a limited plan, a trial and paid API usage.</p></article>'
         '</div></section>')
+    lumo_ad=(
+        '<section class="section" id="lumo-affiliate"><p class="eyebrow">AFFILIATE ADVERTISEMENT</p>'
+        '<h2>Considering Lumo for your next AI task?</h2>'
+        '<p>Review Proton Lumo’s current features, plans and usage limits before choosing an AI assistant.</p>'
+        '<p><a class="button" href="https://xmknb.com/g/0crpj4qh4nb059e94582a413d45360/" rel="sponsored noopener">Explore Lumo plans →</a></p>'
+        '<p>We may earn a commission on qualifying purchases through this link.</p>'
+        '<p>This link uses an affiliate redirect. See our <a href="/privacy/#affiliate-links">privacy policy</a> before following it.</p></section>')
     publish('/ai-tools/','AI tools for developers and website builders','Source-linked AI task guides, free entry points and buying checks.',
         '<section class="page-hero task-hero"><p class="eyebrow">AI TOOLS</p><h1>Choose the task.<br><span>Then choose the tool.</span></h1><p class="lede">Start with what must be finished: a checked draft, readable PDF, editable file, saved handoff or meeting record. Use the task routes below before comparing products or plans.</p><div class="task-links"><a href="#task-routes">Find a workflow</a><a href="/free-ai/">Compare free access</a><a href="#product-guides">Browse product guides</a></div></section>'
-        +task_routes+
-        '<div class="notice">No verified promotional coupon is listed in this collection. Free plans and standard subscriptions are not discounts. Product links go directly to official sites; no affiliate commission is configured for product listings. Two workflow guides contain a labelled affiliate advertisement.</div>'
+        +task_routes+lumo_ad+
+        '<div class="notice">No verified promotional coupon is listed in this collection. Free plans and standard subscriptions are not discounts. Product links go directly to official sites; no affiliate commission is configured for product listings. This collection page contains a labelled Lumo affiliate advertisement. Two workflow guides also contain a labelled affiliate advertisement.</div>'
         '<section class="section" id="product-guides"><div class="section-heading"><h2>Product guides</h2><a href="#task-routes">Back to task routes ↑</a></div><div class="grid">'+cards+MUSE_CARD+'</div></section><section class="section"><h2>Choose by the work, not the label</h2><div class="table-wrap"><table><thead><tr><th>Tool</th><th>Use case</th><th>Before you pay</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'
         '<section class="section"><h2>Meeting notes, transcription and summaries</h2><p>Choose a tool around capture, correction, export and access. These independent workflow guides help you evaluate the complete handoff before subscribing.</p><div class="grid">'+meeting_cards+'</div></section>'
         '<section class="prose"><h2>Practical guides</h2><p><a href="/ai-tools/coding-assistant-checklist/">Choose an AI coding assistant without buying overlapping subscriptions</a></p><p><a href="/ai-tools/ai-app-budget/">Plan an AI app budget: tools, hosting and model usage</a></p><p><a href="/ai-tools/check-free-ai-export/">Check whether a result stays usable after export</a></p><p><a href="/ai-tools/save-free-ai-progress/">Build a handoff before a free usage limit interrupts the task</a></p><h2>How we review</h2><p>Product facts are based on the linked official sources. Buying advice is our editorial judgment, not a benchmark or a claim of hands-on testing. This collection is manually reviewed and is separate from the automated VPS price monitor. Product source review date: '+escape(date)+'. Task hub review date: '+escape(hub_date)+'. Check the official page before purchase.</p></section>',lastmod=hub_date)
