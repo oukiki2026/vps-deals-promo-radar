@@ -14,6 +14,7 @@ from pdf_content import publish_pdf_guide
 from export_content import publish_export_guide
 from quota_content import publish_quota_guide
 from citation_content import publish_citation_guide
+from freshness_content import publish_freshness_guide
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -78,6 +79,7 @@ def build(config_path=None,output=None):
         publish_export_guide(page,cfg)
         publish_quota_guide(page,cfg)
         publish_citation_guide(page,cfg)
+        publish_freshness_guide(page,cfg)
         publish_ai_pages(page,cfg)
     publish_guides(page,cfg)
     for p in cfg['providers']:
