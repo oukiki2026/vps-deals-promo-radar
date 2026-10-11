@@ -33,7 +33,7 @@ TOOLS = [
 
 def publish_ai_pages(page, cfg):
     date=cfg.get('ai_content_updated','2026-10-02')
-    hub_date='2026-10-10'
+    hub_date='2026-10-11'
     def publish(path,title,description,body,lastmod=None):
         page(path,title,description,body,lastmod=lastmod or '2026-10-07')
     cards=''.join(f'<article class="card"><p class="eyebrow">{escape(t["category"])}</p><h3><a href="/ai-tools/{t["slug"]}/">{escape(t["name"])}</a></h3><p>{escape(t["summary"])}</p><a class="arrow" href="/ai-tools/{t["slug"]}/">Read the buying guide →</a></article>' for t in TOOLS)
@@ -56,7 +56,7 @@ def publish_ai_pages(page, cfg):
         '<p><a class="button" href="https://xmknb.com/g/0crpj4qh4nb059e94582a413d45360/" rel="sponsored noopener">Explore Lumo plans →</a></p>'
         '<p>We may earn a commission on qualifying purchases through this link.</p>'
         '<p>This link uses an affiliate redirect. See our <a href="/privacy/#affiliate-links">privacy policy</a> before following it.</p></section>')
-    publish('/ai-tools/','AI tools for developers and website builders','Source-linked AI task guides, free entry points and buying checks.',
+    publish('/ai-tools/','AI tools for writing, documents, meetings and coding | '+cfg['brand'],'Practical AI workflows, free entry points and product guides for everyday tasks.',
         '<section class="page-hero task-hero"><p class="eyebrow">AI TOOLS</p><h1>Choose the task.<br><span>Then choose the tool.</span></h1><p class="lede">What are you trying to finish: a draft, a PDF, a spreadsheet or meeting notes? Start there. Choose a product after you know what the job needs.</p><div class="task-links"><a href="#task-routes">Find a workflow</a><a href="/free-ai/">Compare free access</a><a href="#product-guides">Browse product guides</a></div></section>'
         +task_routes+lumo_ad+
         '<div class="notice">Product listings link directly to official sites. The Lumo advertisement here and advertisements in three workflow guides are labelled and disclosed. We list no verified coupons; a free plan is not a paid-plan discount.</div>'

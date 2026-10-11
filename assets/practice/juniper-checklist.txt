@@ -1,0 +1,13 @@
+Juniper practice — record what you actually checked
+[ ] Original file retained.
+[ ] Five rows and their item labels match.
+[ ] Cables count remains the recorded zero.
+[ ] Lamps count stays UNKNOWN until a new observation resolves it.
+[ ] Paper's count field is genuinely empty, with its reason in status.
+[ ] Destination saved and reopened; values checked there too.
+
+Known subtotal: 6. Two rows are unresolved, so this is not a complete total.
+Mark steps untested if you have not performed them.
+Tool / destination:
+Check date:
+Repair or blocked step:

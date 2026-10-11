@@ -1,0 +1,8 @@
+Juniper cupboard practice notes — fictional data
+J1 — cables: checked, count 0.
+J2 — lamps: not checked, count UNKNOWN.
+J3 — cups: checked, count 4.
+J4 — paper: count field intentionally empty; awaiting entry.
+J5 — clips: checked, count 2.
+
+The count is the number of items physically checked today. An unchecked item is not an observed zero. These are invented notes, not a real inventory.

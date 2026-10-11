@@ -9,6 +9,7 @@ from xml.sax.saxutils import escape as xml_escape
 import json,shutil,re,hashlib
 from ai_content import publish_ai_pages
 from guides import publish_guides
+from guide_directory import publish_guide_directory
 from beginner_content import publish_beginner_pages
 from pdf_content import publish_pdf_guide
 from export_content import publish_export_guide
@@ -42,22 +43,23 @@ def build(config_path=None,output=None):
     (out/'assets/editorial').mkdir()
     for diagram in (ROOT/'assets/editorial').glob('*.svg'):
         shutil.copy(diagram,out/'assets/editorial'/diagram.name)
+    shutil.copytree(ROOT/'assets/practice',out/'assets/practice')
+    shutil.copy(ROOT/'assets/tutorial-actions.js',out/'assets/tutorial-actions.js')
     measurement_id=cfg.get('ga4_measurement_id','')
     if measurement_id and not re.fullmatch(r'G-[A-Z0-9]+',measurement_id):raise ValueError('Invalid GA4 measurement ID')
     analytics_markup=(f'<script defer src="/assets/analytics.js?v=1" data-measurement-id="{measurement_id}"></script>' if measurement_id else '')
-    umami_id=cfg.get('umami_website_id','')
-    if umami_id:analytics_markup+=f'<script defer src="https://stats.china0432.com/script.js" data-website-id="{umami_id}"></script>'
     if measurement_id:shutil.copy(ROOT/'assets/analytics.js',out/'assets/analytics.js')
     style_version=hashlib.sha256((ROOT/'assets/style.css').read_bytes()).hexdigest()[:12]
     (out/'data').mkdir();public_data=dict(data,offers=offers,providers=[p for p in data['providers'] if p['provider_id'] in {x['id'] for x in cfg['providers']}]);(out/'data/offers.json').write_text(json.dumps(public_data,indent=2),encoding='utf-8')
     providers={p['id']:p for p in cfg['providers']};statuses={p['provider_id']:p for p in data['providers']}
-    month=datetime.fromisoformat(data['fetched_at']).strftime('%B %Y');paths=[]
+    month=datetime.fromisoformat(data['fetched_at']).strftime('%B %Y');paths=[];page_records=[]
     def url(path):return base+path
     def render(template,**kw):return Template((ROOT/'templates'/template).read_text(encoding='utf-8')).substitute(**kw)
     def card(o):
         return f'<article class="card"><div class="eyebrow">{escape(providers[o["provider_id"]]["name"])} · {escape(o["kind"])}</div><h3><a href="/deals/{o["id"]}/">{escape(o["model"])}</a></h3><p class="price">${escape(o["price"])}<small> USD / {escape(o["period"])}</small></p><p>{escape(o.get("specs",""))}</p><p class="terms">{escape(o["terms"])}</p><a class="arrow" href="/deals/{o["id"]}/">Review source &amp; terms ↗</a></article>'
     def itemlist(items):return {'@context':'https://schema.org','@type':'ItemList','itemListElement':[{'@type':'ListItem','position':i+1,'url':url('/deals/'+o['id']+'/'),'name':o['title']} for i,o in enumerate(items)]}
     def page(path,title,description,content,schemas=None,lastmod=None):
+        page_records.append(dict(path=path,title=title,description=description))
         bread={'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':cfg['brand'],'item':url('/')}]}
         if path!='/':bread['itemListElement'].append({'@type':'ListItem','position':2,'name':title,'item':url(path)})
         schema=json.dumps((schemas or [])+[bread],ensure_ascii=False).replace('<','\\u003c')
@@ -66,7 +68,8 @@ def build(config_path=None,output=None):
         if cfg.get('contact_email'):support_links+='<a href="/contact/">Contact</a>'
         ai_nav='<a href="/offers/">Verified offers</a><a href="/hosting/">Hosting</a>'
         if cfg.get('ai_tools_enabled')=='true':ai_nav='<a href="/start/">Start here</a><a href="/ai-tools/">AI Tools</a><a href="/free-ai/">Free AI</a>'+ai_nav
-        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links,style_version=style_version,ai_nav=ai_nav,analytics_markup=analytics_markup)
+        tutorial_markup='<script defer src="/assets/tutorial-actions.js?v=1"></script>' if any(marker in content for marker in ('<blockquote','<pre','data-practice-checklist')) else ''
+        html=render('base.html',brand=escape(cfg['brand']),tagline=escape(cfg['tagline']),title=escape(title),description=escape(description),canonical=escape(url(path)),base_url=escape(base),content=content,schema=schema,repo=escape(cfg['repository']),updated=escape(data['fetched_at']),support_links=support_links,style_version=style_version,ai_nav=ai_nav,analytics_markup=analytics_markup+tutorial_markup)
         target=out/path.lstrip('/')/'index.html' if path!='/' else out/'index.html';target.parent.mkdir(parents=True,exist_ok=True);target.write_text(html,encoding='utf-8');paths.append((path,lastmod or data['fetched_at']))
     nav=''.join(f'<a class="provider-pill" href="/providers/{p["id"]}/">{escape(p["name"])}</a>' for p in cfg['providers'])
     ai_intro='<section class="section"><div class="section-heading"><h2>AI tools for your next project</h2><a href="/ai-tools/">Explore AI Tools →</a></div><p>Compare coding assistants, AI website builders and model deployment options. Check free entry points, usage limits and the costs beyond a subscription.</p></section>' if cfg.get('ai_tools_enabled')=='true' else ''
@@ -86,6 +89,7 @@ def build(config_path=None,output=None):
         publish_table_state_guide(page,cfg)
         publish_ai_pages(page,cfg)
     publish_guides(page,cfg)
+    publish_guide_directory(page,cfg,page_records)
     for p in cfg['providers']:
         items=[o for o in offers if o['provider_id']==p['id']];st=statuses.get(p['id'],{});check=st.get('checked_at','Not checked yet')
         content=render('provider.html',name=escape(p['name']),source=escape(p['source']),status=escape(st.get('status','not-checked')),checked=escape(check),cards=''.join(card(o) for o in items) or '<div class="notice">No verified current price available. This is not a claim that the provider has no offers. Check the official source.</div>')

@@ -127,9 +127,6 @@ def publish_guides(page, cfg):
     visible = [g for g in GUIDES if ai or not g.get('ai')]
     def publish(path, title, description, body):
         page(path, title, description, body, lastmod='2026-10-07')
-    cards = ''.join(f'<article class="card"><p class="eyebrow">{escape(g["category"])}</p><h3><a href="/guides/{g["slug"]}/">{escape(g["title"])}</a></h3><p>{escape(g["summary"])}</p><a class="arrow" href="/guides/{g["slug"]}/">Read the guide →</a></article>' for g in visible)
-    publish('/guides/', 'Hosting and AI buying guides | '+cfg['brand'], 'Practical decisions about VPS terms, deployment and AI spending.',
-            '<section class="page-hero"><p class="eyebrow">PRACTICAL GUIDES</p><h1>Buy for the project.<br><span>Read beyond the headline.</span></h1><p class="lede">Hosting terms, deployment choices and AI costs explained around the work you want to finish.</p></section><section class="section"><div class="grid">'+cards+'</div></section><p class="notice">These guides explain buying decisions using official documentation. They are not performance tests.</p>')
     providers = ''.join(f'<li><a href="/providers/{escape(p["id"])}/">{escape(p["name"])} current source status</a></li>' for p in cfg['providers'])
     for g in visible:
         sources = ''.join(f'<li><a href="{escape(url)}" rel="noopener">{escape(label)}</a></li>' for label, url in g['sources'])
