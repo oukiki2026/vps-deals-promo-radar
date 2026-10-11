@@ -1,0 +1,7 @@
+source_id,item,source_value,source_unit,volume_ml,status
+C1,blue paint,250,mL,250,checked_volume
+C2,green paint,0.5,L,500,checked_volume
+C3,white paint,750,mL,750,checked_volume
+C4,varnish,40,UNKNOWN,,unit_missing
+C5,filler,100,g,,different_dimension
+

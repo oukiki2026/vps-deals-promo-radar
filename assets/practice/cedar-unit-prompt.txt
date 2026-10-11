@@ -1,0 +1,7 @@
+Turn the Cedar notes into CSV: source_id,item,source_value,source_unit,volume_ml,status.
+Preserve source numbers and units literally; C4 source_unit is UNKNOWN.
+Conversion map: mL = value; L = value * 1000.
+Leave volume_ml empty for a missing or non-volume unit.
+Statuses: checked_volume, unit_missing, different_dimension.
+Report the known-volume subtotal and excluded IDs. Do not guess units or convert grams to milliliters.
+

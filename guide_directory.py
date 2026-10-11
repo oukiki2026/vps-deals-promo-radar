@@ -12,7 +12,7 @@ CATEGORIES = (
 def category(path):
     if any(word in path for word in ('meeting', 'transcription')):
         return 'meetings'
-    if any(word in path for word in ('pdf', 'export', 'zero-blank')):
+    if any(word in path for word in ('pdf', 'export', 'zero-blank', 'check-units')):
         return 'documents'
     if any(word in path for word in ('cursor', 'copilot', 'coding', 'gemini-flash', 'evaluate-new-ai-model')):
         return 'coding'

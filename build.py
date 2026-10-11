@@ -18,6 +18,7 @@ from citation_content import publish_citation_guide
 from freshness_content import publish_freshness_guide
 from clarification_content import publish_clarification_guide
 from table_state_content import publish_table_state_guide
+from unit_content import publish_unit_guide
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -87,6 +88,7 @@ def build(config_path=None,output=None):
         publish_freshness_guide(page,cfg)
         publish_clarification_guide(page,cfg)
         publish_table_state_guide(page,cfg)
+        publish_unit_guide(page,cfg)
         publish_ai_pages(page,cfg)
     publish_guides(page,cfg)
     publish_guide_directory(page,cfg,page_records)
