@@ -42,6 +42,30 @@
     tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
     document.head.appendChild(tag);
   }
+  const placements = {
+    'systeme-affiliate': 'systeme_io',
+    'ww-affiliate': 'wondershare',
+    'ww-affiliate-pdf': 'wondershare',
+    'ww-affiliate-video': 'wondershare',
+    'lumo-affiliate': 'proton_lumo',
+    'notta-affiliate': 'notta'
+  };
+  function trackAffiliate(event) {
+    if (!event.isTrusted || (event.type === 'auxclick' && event.button !== 1)) return;
+    if (choice !== 'granted' || !started || window['ga-disable-' + id]) return;
+    const link = event.target.closest && event.target.closest('a[rel~="sponsored"]');
+    const section = link && link.closest('section[id]');
+    const merchant = section && placements[section.id];
+    if (typeof merchant !== 'string' || typeof window.gtag !== 'function') return;
+    window.gtag('event', 'affiliate_click', {
+      merchant: merchant,
+      placement: section.id,
+      page_path: location.pathname,
+      transport_type: 'beacon'
+    });
+  }
+  document.addEventListener('click', trackAffiliate);
+  document.addEventListener('auxclick', trackAffiliate);
   const panel = document.createElement('section');
   panel.className = 'section analytics-preferences';
   panel.setAttribute('aria-label', 'Analytics preferences');
