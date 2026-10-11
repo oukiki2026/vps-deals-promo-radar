@@ -48,6 +48,7 @@ def publish_ai_pages(page, cfg):
         '<article class="card"><p class="eyebrow">LIMIT REACHED</p><h3><a href="/ai-tools/save-free-ai-progress/">Save progress before access stops</a></h3><p>Save your source notes, checked facts, draft and the next step.</p></article>'
         '<article class="card"><p class="eyebrow">MEETING</p><h3><a href="/ai-tools/ai-meeting-notes/">Make meeting notes your team can use</a></h3><p>Check the recording, correct the notes and save decisions with their owners.</p></article>'
         '<article class="card"><p class="eyebrow">COMPARE PLANS</p><h3><a href="/free-ai/">Check what “free” covers</a></h3><p>Separate a free app, a limited plan, a trial and paid API usage.</p></article>'
+        '<article class="card"><p class="eyebrow">CURSOR ACCESS</p><h3><a href="/ai-tools/cursor-free-access/">Separate free access from a Pro promotion</a></h3><p>Check Hobby, MLH event terms and the account outcome before upgrading.</p></article>'
         '</div></section>')
     lumo_ad=(
         '<section class="section" id="lumo-affiliate"><p class="eyebrow">AFFILIATE ADVERTISEMENT</p>'

@@ -1,0 +1,18 @@
+Cursor access checklist | KIKOMONO | Reviewed 2026-10-11
+
+[ ] Separate Hobby from conditional Pro promotions.
+[ ] Check eligibility for the actual account.
+[ ] Record duration and allowance; missing terms stay UNKNOWN.
+[ ] Check amount due now and renewal conditions.
+[ ] Confirm dashboard status after redemption.
+[ ] Save redacted evidence and a contact for unresolved terms.
+
+Offer source: __________________
+Benefit: __________________
+Duration / allowance: __________________
+Due now / renewal: __________________
+Account result: __________________
+Unresolved questions: __________________
+
+This is a checking worksheet, not proof of an entitlement.
+Do not store a live code or private payment details in a public record.
