@@ -1,0 +1,7 @@
+Invented Maple practice notes — no real transactions.
+M1: notebook, USD 12.50.
+M2: folder, CAD 8.00.
+M3: pen, $5.00. Currency not stated.
+M4: notebook refund, USD -2.00.
+M5: paper, EUR 7.00.
+M6: binder, USD. Amount not recorded.

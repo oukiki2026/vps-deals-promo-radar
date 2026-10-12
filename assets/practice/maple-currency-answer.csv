@@ -1,0 +1,7 @@
+source_id,item,source_text,amount,currency_code,status
+M1,notebook,USD 12.50,12.50,USD,checked
+M2,folder,CAD 8.00,8.00,CAD,checked
+M3,pen,$5.00,5.00,UNKNOWN,currency_missing
+M4,notebook refund,USD -2.00,-2.00,USD,checked
+M5,paper,EUR 7.00,7.00,EUR,checked
+M6,binder,USD,,USD,amount_missing

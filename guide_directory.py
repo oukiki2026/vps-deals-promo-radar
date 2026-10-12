@@ -12,7 +12,7 @@ CATEGORIES = (
 def category(path):
     if any(word in path for word in ('meeting', 'transcription')):
         return 'meetings'
-    if any(word in path for word in ('pdf', 'export', 'zero-blank', 'check-units')):
+    if any(word in path for word in ('pdf', 'export', 'zero-blank', 'check-units', 'currency-codes')):
         return 'documents'
     if any(word in path for word in ('cursor', 'copilot', 'coding', 'gemini-flash', 'evaluate-new-ai-model')):
         return 'coding'
@@ -48,4 +48,4 @@ def publish_guide_directory(page, cfg, records):
              'For price records, use <a href="/offers/">Verified offers</a>.</p>')
     page('/guides/', 'All AI and hosting guides | '+cfg['brand'],
          'Browse practical writing, PDF, spreadsheet, meeting, coding and website guides by task.',
-         body, lastmod='2026-10-11')
+         body, lastmod='2026-10-12')

@@ -1,0 +1,5 @@
+Turn Maple notes into CSV: source_id,item,source_text,amount,currency_code,status.
+Keep source IDs and literal amount text. M3 code UNKNOWN; M4 amount -2.00; M6 amount empty.
+Use checked, currency_missing or amount_missing.
+Calculate separate known-amount subtotals by confirmed currency and name excluded IDs.
+Do not convert currencies or invent rates.
