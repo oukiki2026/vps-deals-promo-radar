@@ -22,6 +22,7 @@ from unit_content import publish_unit_guide
 from cursor_access_content import publish_cursor_access
 from currency_content import publish_currency_guide
 from student_content import publish_student_guide
+from writing_content import publish_writing_guide
 
 def active_offers(cfg,data,now=None):
     now=now or datetime.now(timezone.utc);providers={p['id'] for p in cfg['providers']};out=[]
@@ -95,6 +96,7 @@ def build(config_path=None,output=None):
         publish_cursor_access(page,cfg)
         publish_currency_guide(page,cfg)
         publish_student_guide(page,cfg)
+        publish_writing_guide(page,cfg)
         publish_ai_pages(page,cfg)
     publish_guides(page,cfg)
     publish_guide_directory(page,cfg,page_records)
