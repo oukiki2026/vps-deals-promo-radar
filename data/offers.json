@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "fetched_at": "2026-10-16T06:52:36+00:00",
+  "fetched_at": "2026-10-16T12:52:39+00:00",
   "locale": "en-US",
   "offers": [],
   "providers": [
@@ -8,7 +8,7 @@
       "provider_id": "ionos",
       "name": "IONOS",
       "source_url": "https://www.ionos.com/servers/vps",
-      "checked_at": "2026-10-16T06:52:36+00:00",
+      "checked_at": "2026-10-16T12:52:39+00:00",
       "robots": {
         "url": "https://www.ionos.com/robots.txt",
         "sha256": "d8f325ea817a0da0f0f53f49af2ca01641b3a4e0012491bdda0bdbaf8fed4a19",
@@ -16,13 +16,13 @@
       },
       "status": "no-verifiable-price",
       "offer_count": 0,
-      "source_sha256": "c8e1cf306b83f4777712a6f71a4e58b299a3775eab425c66f53dc6225e086608"
+      "source_sha256": "5a0cad41c0c0da4c7527ae759c3775af519ad8dcdf287cc51e430b4004dac0d6"
     },
     {
       "provider_id": "digitalocean",
       "name": "DigitalOcean",
       "source_url": "https://www.digitalocean.com/pricing/droplets",
-      "checked_at": "2026-10-16T06:52:36+00:00",
+      "checked_at": "2026-10-16T12:52:39+00:00",
       "robots": {
         "url": "https://www.digitalocean.com/robots.txt",
         "sha256": "fa88d03d74f7d9a29da6780431c0eda495aad6e9d16eb080d7b07d966aad28a8",
@@ -30,13 +30,13 @@
       },
       "status": "no-verifiable-price",
       "offer_count": 0,
-      "source_sha256": "2d48842fc6d5038f48563dd2375c41a1c7dc4a40848d91bc8cc0b4bfc88e5163"
+      "source_sha256": "2f35bfb9d9adb192e343f2fde9f5b2d891783eeced9ea7028e3744d81f14b082"
     },
     {
       "provider_id": "hetzner",
       "name": "Hetzner",
       "source_url": "https://www.hetzner.com/cloud/",
-      "checked_at": "2026-10-16T06:52:36+00:00",
+      "checked_at": "2026-10-16T12:52:39+00:00",
       "robots": {
         "url": "https://www.hetzner.com/robots.txt",
         "sha256": "7c0e0de0a0469552e7ae48283d0c6e9c072deb795619b25ce7b377d8be90c986",
