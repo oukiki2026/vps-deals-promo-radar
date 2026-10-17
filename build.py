@@ -43,19 +43,19 @@ def build(config_path=None,output=None):
     # Delete only our generated output inside this repo or an explicit test temp directory.
     if out.resolve()==ROOT.resolve() or out.resolve()==ROOT.parent.resolve():raise ValueError('Refuse deleting source directory')
     if out.exists():shutil.rmtree(out)
-    out.mkdir(parents=True);(out/'assets').mkdir();shutil.copy(ROOT/'assets/style.css',out/'assets/style.css');shutil.copy(ROOT/'assets/logo.svg',out/'assets/logo.svg')
-    shutil.copy(ROOT/'assets/og.png',out/'assets/og.png')
-    shutil.copytree(ROOT/'assets/affiliate',out/'assets/affiliate')
+    out.mkdir(parents=True);(out/'assets').mkdir();shutil.copy(ROOT/'static/assets/style.css',out/'assets/style.css');shutil.copy(ROOT/'static/assets/logo.svg',out/'assets/logo.svg')
+    shutil.copy(ROOT/'static/assets/og.png',out/'assets/og.png')
+    shutil.copytree(ROOT/'static/assets/affiliate',out/'assets/affiliate')
     (out/'assets/editorial').mkdir()
-    for diagram in (ROOT/'assets/editorial').glob('*.svg'):
+    for diagram in (ROOT/'static/assets/editorial').glob('*.svg'):
         shutil.copy(diagram,out/'assets/editorial'/diagram.name)
-    shutil.copytree(ROOT/'assets/practice',out/'assets/practice')
-    shutil.copy(ROOT/'assets/tutorial-actions.js',out/'assets/tutorial-actions.js')
+    shutil.copytree(ROOT/'static/assets/practice',out/'assets/practice')
+    shutil.copy(ROOT/'static/assets/tutorial-actions.js',out/'assets/tutorial-actions.js')
     measurement_id=cfg.get('ga4_measurement_id','')
     if measurement_id and not re.fullmatch(r'G-[A-Z0-9]+',measurement_id):raise ValueError('Invalid GA4 measurement ID')
     analytics_markup=(f'<script defer src="/assets/analytics.js?v=2" data-measurement-id="{measurement_id}"></script>' if measurement_id else '')
-    if measurement_id:shutil.copy(ROOT/'assets/analytics.js',out/'assets/analytics.js')
-    style_version=hashlib.sha256((ROOT/'assets/style.css').read_bytes()).hexdigest()[:12]
+    if measurement_id:shutil.copy(ROOT/'static/assets/analytics.js',out/'assets/analytics.js')
+    style_version=hashlib.sha256((ROOT/'static/assets/style.css').read_bytes()).hexdigest()[:12]
     (out/'data').mkdir();public_data=dict(data,offers=offers,providers=[p for p in data['providers'] if p['provider_id'] in {x['id'] for x in cfg['providers']}]);(out/'data/offers.json').write_text(json.dumps(public_data,indent=2),encoding='utf-8')
     providers={p['id']:p for p in cfg['providers']};statuses={p['provider_id']:p for p in data['providers']}
     month=datetime.fromisoformat(data['fetched_at']).strftime('%B %Y');paths=[];page_records=[]

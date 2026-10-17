@@ -4,3 +4,13 @@ site/
 .env*
 *.dpapi
 *.log
+# Hugo migration generated files (rebuilt by tools/prebuild.py)
+hugo.yaml
+data/active_offers.json
+data/ai_tools.json
+data/meeting_guides.json
+content/deals/
+content/providers/
+static/data/offers.json
+static/_headers
+static/robots.txt
