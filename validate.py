@@ -26,6 +26,8 @@ def main():
             if not link:continue
             target=site/link.lstrip('/')
             assert target.exists() or (target/'index.html').exists(),link
+        if '/ai-tools/free-ai-tools-' in url:
+            assert '<p class="byline">' in html,(url,'missing editor byline')
     assert 'Sitemap: '+base+'/sitemap.xml' in (site/'robots.txt').read_text()
     assert (site/'assets/og.png').read_bytes().startswith(b'\x89PNG')
     print(json.dumps(dict(pages=len(locations),deal_pages=len(offers),canonical_base=base,sitemap_matches=True,jsonld_parse=True,internal_links=True),indent=2))

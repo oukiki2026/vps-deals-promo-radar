@@ -65,6 +65,10 @@ def build(config_path=None,output=None):
         return f'<article class="card"><div class="eyebrow">{escape(providers[o["provider_id"]]["name"])} · {escape(o["kind"])}</div><h3><a href="/deals/{o["id"]}/">{escape(o["model"])}</a></h3><p class="price">${escape(o["price"])}<small> USD / {escape(o["period"])}</small></p><p>{escape(o.get("specs",""))}</p><p class="terms">{escape(o["terms"])}</p><a class="arrow" href="/deals/{o["id"]}/">Review source &amp; terms ↗</a></article>'
     def itemlist(items):return {'@context':'https://schema.org','@type':'ItemList','itemListElement':[{'@type':'ListItem','position':i+1,'url':url('/deals/'+o['id']+'/'),'name':o['title']} for i,o in enumerate(items)]}
     def page(path,title,description,content,schemas=None,lastmod=None):
+        # 编辑署名自动化（2026-10-17）：daily 系列文章统一署 By Lika，由构建注入，
+        # 写文章时无需手写；正文自带 byline 段落时跳过（可换署名人）。
+        if path.startswith('/ai-tools/free-ai-tools-') and '<p class="byline">' not in content and '</h1>' in content:
+            content=content.replace('</h1>','<p class="byline">By Lika</p>',1)
         page_records.append(dict(path=path,title=title,description=description))
         bread={'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':cfg['brand'],'item':url('/')}]}
         if path!='/':bread['itemListElement'].append({'@type':'ListItem','position':2,'name':title,'item':url(path)})
